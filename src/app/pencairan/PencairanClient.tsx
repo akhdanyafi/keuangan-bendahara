@@ -78,7 +78,7 @@ export default function PencairanClient({ session }: { session: SessionPayload }
                         <StatusBadge status={p.status} />
                       </div>
                       <p className="text-xs text-slate-400">
-                        {p.guru_nama} &middot; {p.kategori_nama} &middot; {formatDate(p.tanggal_pengajuan)}
+                        {p.pengaju_nama} &middot; {p.kategori_nama} &middot; {formatDate(p.tanggal_pengajuan)}
                       </p>
                       <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">{p.alasan}</p>
                       {p.approved_at && (

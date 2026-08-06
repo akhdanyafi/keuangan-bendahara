@@ -2,12 +2,15 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Mail, Lock, School, ArrowRight } from 'lucide-react'
+import { Mail, Lock, ArrowRight } from 'lucide-react'
+import { APP_NAME } from '@/types'
+import Logo from '@/components/Logo'
 
 const DEMO_ACCOUNTS = [
-  { email: 'bendahara@sekolah.id', role: 'Bendahara' },
-  { email: 'kepala@sekolah.id', role: 'Kepala Sekolah' },
-  { email: 'guru1@sekolah.id', role: 'Guru' },
+  { email: 'andi.bendahara@yaspida.id', role: 'Bendahara' },
+  { email: 'lani.melani@yaspida.id', role: 'Ketua Yayasan' },
+  { email: 'karyawan1@yaspida.id', role: 'Karyawan Yayasan' },
+  { email: 'komponen1@yaspida.id', role: 'Komponen Sekolah' },
 ]
 
 export default function LoginPage() {
@@ -42,10 +45,8 @@ export default function LoginPage() {
       <div className="flex-1 flex flex-col justify-center px-10 py-12 max-w-[520px] mx-auto lg:mx-0">
         {/* Logo */}
         <div className="flex items-center gap-2.5 mb-12">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <School size={16} className="text-white" />
-          </div>
-          <span className="text-lg font-bold text-slate-800 tracking-tight">SIMAS Keuangan</span>
+          <Logo size={32} />
+          <span className="text-lg font-bold text-slate-800 tracking-tight">{APP_NAME}</span>
         </div>
 
         {/* Heading */}
@@ -76,7 +77,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                placeholder="email@sekolah.id"
+                placeholder="email@yaspida.id"
                 className="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               />
               {email && (
@@ -127,7 +128,7 @@ export default function LoginPage() {
         </div>
 
         {/* Demo Accounts */}
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           {DEMO_ACCOUNTS.map((acc) => (
             <button
               key={acc.email}
@@ -202,7 +203,7 @@ export default function LoginPage() {
           <div className="mt-12 text-center">
             <h2 className="text-2xl font-bold text-blue-900 mb-2">Keuangan Transparan</h2>
             <p className="text-sm text-blue-700/70 max-w-xs leading-relaxed">
-              Sistem pengelolaan keuangan sekolah yang aman, transparan, dan mudah digunakan.
+              Sistem pengelolaan anggaran Yayasan Yaspida yang aman, transparan, dan mudah digunakan.
             </p>
           </div>
 

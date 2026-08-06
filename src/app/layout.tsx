@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { APP_NAME, APP_FULL_NAME } from '@/types'
 
 export const metadata: Metadata = {
-  title: 'Keuangan Bendahara - Sistem Pengeluaran Sekolah',
-  description: 'Sistem pengajuan dan approval pengeluaran sekolah',
+  title: `${APP_NAME} - ${APP_FULL_NAME}`,
+  description: 'Sistem pengajuan dan approval anggaran Yayasan Yaspida',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

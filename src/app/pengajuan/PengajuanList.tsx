@@ -5,12 +5,13 @@ import DashboardLayout from '@/app/dashboard-layout'
 import StatusBadge from '@/components/StatusBadge'
 import type { SessionPayload } from '@/lib/auth'
 import type { Kategori, Pengajuan, StatusPengajuan } from '@/types'
-import { formatRupiah, formatDate, formatDateTime } from '@/types'
+import { formatRupiah, formatDate, formatDateTime, daysPending, SUBMITTER_ROLES } from '@/types'
 import {
   Plus, Filter, FileText, Search, Trash2, X, Upload,
   CheckCircle, XCircle, Banknote, Shield, RefreshCw, Send, Save,
 } from 'lucide-react'
 import Image from 'next/image'
+import CurrencyInput from '@/components/CurrencyInput'
 
 const STATUS_OPTIONS = [
   { value: '', label: 'Semua Status' },
@@ -41,12 +42,16 @@ function getStepIndex(status: string) {
 }
 
 /* ─────────────── FORM MODAL ─────────────── */
+interface ItemInput { nama_barang: string; quantity: string; estimasi_harga: string }
+const EMPTY_ITEM: ItemInput = { nama_barang: '', quantity: '1', estimasi_harga: '' }
+
 function FormModal({ onClose, onSuccess }: {
   session?: SessionPayload
   onClose: () => void
   onSuccess: () => void
 }) {
   const [kategoriList, setKategoriList] = useState<Kategori[]>([])
+  const [items, setItems] = useState<ItemInput[]>([{ ...EMPTY_ITEM }])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -56,12 +61,31 @@ function FormModal({ onClose, onSuccess }: {
     })
   }, [])
 
+  const updateItem = (i: number, field: keyof ItemInput, value: string) => {
+    setItems((prev) => prev.map((it, idx) => (idx === i ? { ...it, [field]: value } : it)))
+  }
+  const addItem = () => setItems((prev) => [...prev, { ...EMPTY_ITEM }])
+  const removeItem = (i: number) => setItems((prev) => prev.filter((_, idx) => idx !== i))
+
+  const totalEstimasi = items.reduce((s, it) => s + (Number(it.estimasi_harga) || 0), 0)
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, action: 'draft' | 'submit') => {
     e.preventDefault()
     setError('')
+
+    const cleanItems = items
+      .map((it) => ({ nama_barang: it.nama_barang.trim(), quantity: Number(it.quantity) || 1, estimasi_harga: Number(it.estimasi_harga) || 0 }))
+      .filter((it) => it.nama_barang)
+
+    if (cleanItems.length === 0) {
+      setError('Minimal 1 barang harus diisi')
+      return
+    }
+
     setLoading(true)
     const fd = new FormData(e.currentTarget)
     fd.set('action', action)
+    fd.set('items', JSON.stringify(cleanItems))
     const res = await fetch('/api/pengajuan', { method: 'POST', body: fd })
     setLoading(false)
     if (res.ok) { onSuccess(); onClose() }
@@ -88,31 +112,44 @@ function FormModal({ onClose, onSuccess }: {
             {error && <div className="px-4 py-3 bg-red-50 border border-red-100 rounded-lg text-red-600 text-sm">{error}</div>}
 
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1.5">NAMA BARANG / KEBUTUHAN *</label>
-              <input name="nama_barang" required placeholder="Contoh: Proyektor Epson EB-E20"
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">KATEGORI *</label>
-                <select name="kategori_id" required
-                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="">-- Pilih --</option>
-                  {kategoriList.map((k) => <option key={k.id} value={k.id}>{k.nama}</option>)}
-                </select>
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1.5">ESTIMASI HARGA (RP) *</label>
-                <input name="estimasi_harga" type="number" required min="0" step="1000" placeholder="5000000"
-                  className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-              </div>
+              <label className="block text-xs font-semibold text-slate-600 mb-1.5">KATEGORI *</label>
+              <select name="kategori_id" required
+                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">-- Pilih --</option>
+                {kategoriList.map((k) => <option key={k.id} value={k.id}>{k.nama}</option>)}
+              </select>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1.5">JUMLAH / QUANTITY *</label>
-              <input name="quantity" type="number" required min="1" defaultValue={1}
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <label className="block text-xs font-semibold text-slate-600 mb-1.5">DAFTAR BARANG *</label>
+              <div className="space-y-2">
+                {items.map((it, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <input value={it.nama_barang} onChange={(e) => updateItem(i, 'nama_barang', e.target.value)}
+                      placeholder="Contoh: Proyektor Epson EB-E20"
+                      className="flex-1 min-w-0 px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input value={it.quantity} onChange={(e) => updateItem(i, 'quantity', e.target.value)}
+                      type="number" min="1" placeholder="Qty" title="Jumlah"
+                      className="w-16 px-2 py-2.5 border border-slate-200 rounded-xl text-sm text-center focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <CurrencyInput value={it.estimasi_harga} onValueChange={(raw) => updateItem(i, 'estimasi_harga', raw)}
+                      placeholder="Rp"
+                      className="w-32 px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <button type="button" onClick={() => removeItem(i)} disabled={items.length === 1}
+                      className="shrink-0 w-9 h-[42px] flex items-center justify-center text-red-400 hover:text-red-600 hover:bg-red-50 rounded-xl disabled:opacity-30 disabled:hover:bg-transparent transition-colors">
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button type="button" onClick={addItem}
+                className="mt-2 flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 font-medium">
+                <Plus size={14} /> Tambah Barang
+              </button>
+              {totalEstimasi > 0 && (
+                <p className="text-right text-xs text-slate-500 mt-2">
+                  Total estimasi: <span className="font-semibold text-slate-700">{formatRupiah(totalEstimasi)}</span>
+                </p>
+              )}
             </div>
 
             <div>
@@ -226,7 +263,7 @@ function DetailModal({ id, session, onClose, onRefresh }: {
             {/* Sub-header */}
             <div className="px-6 py-3 border-b border-slate-100 shrink-0">
               <h2 className="font-bold text-slate-800 text-base">{data.nama_barang}</h2>
-              <p className="text-xs text-slate-400 mt-0.5">{data.guru_nama} · <span className="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[11px] font-medium">{data.kategori_nama}</span></p>
+              <p className="text-xs text-slate-400 mt-0.5">{data.pengaju_nama} · <span className="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[11px] font-medium">{data.kategori_nama}</span></p>
             </div>
 
             {/* Tabs */}
@@ -280,9 +317,9 @@ function DetailModal({ id, session, onClose, onRefresh }: {
                   {/* Info grid */}
                   <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
                     <div><p className="text-xs text-slate-400 mb-0.5">TANGGAL PENGAJUAN</p><p className="font-medium text-slate-700">{formatDate(data.tanggal_pengajuan)}</p></div>
-                    <div><p className="text-xs text-slate-400 mb-0.5">DIAJUKAN OLEH</p><p className="font-medium text-slate-700">{data.guru_nama}</p></div>
+                    <div><p className="text-xs text-slate-400 mb-0.5">DIAJUKAN OLEH</p><p className="font-medium text-slate-700">{data.pengaju_nama}</p></div>
                     <div><p className="text-xs text-slate-400 mb-0.5">VENDOR / TOKO</p><p className="text-slate-700">{data.vendor || '—'}</p></div>
-                    <div><p className="text-xs text-slate-400 mb-0.5">JUMLAH (QTY)</p><p className="text-slate-700">{data.quantity ?? 1} unit</p></div>
+                    <div><p className="text-xs text-slate-400 mb-0.5">JUMLAH BARANG</p><p className="text-slate-700">{data.items?.length ?? 1} jenis</p></div>
                     <div className="col-span-2"><p className="text-xs text-slate-400 mb-0.5">ALASAN PEMBELIAN</p><p className="text-slate-700">{data.alasan}</p></div>
                     {data.lampiran_penawaran && (
                       <div className="col-span-2"><p className="text-xs text-slate-400 mb-0.5">LAMPIRAN</p>
@@ -290,6 +327,33 @@ function DetailModal({ id, session, onClose, onRefresh }: {
                       </div>
                     )}
                   </div>
+
+                  {/* Rincian barang */}
+                  {data.items && data.items.length > 0 && (
+                    <div>
+                      <p className="text-xs text-slate-400 mb-1.5">RINCIAN BARANG</p>
+                      <div className="border border-slate-200 rounded-xl overflow-hidden">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-slate-50 text-xs text-slate-500">
+                              <th className="px-3 py-2 text-left font-semibold">Nama Barang</th>
+                              <th className="px-3 py-2 text-center font-semibold w-14">Qty</th>
+                              <th className="px-3 py-2 text-right font-semibold">Estimasi</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-100">
+                            {data.items.map((it) => (
+                              <tr key={it.id}>
+                                <td className="px-3 py-2 text-slate-700">{it.nama_barang}</td>
+                                <td className="px-3 py-2 text-center text-slate-500">{it.quantity}</td>
+                                <td className="px-3 py-2 text-right text-slate-700">{formatRupiah(it.estimasi_harga)}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Cost cards */}
                   <div className="grid grid-cols-2 gap-4 mt-2">
@@ -325,8 +389,8 @@ function DetailModal({ id, session, onClose, onRefresh }: {
 
                   {/* Action area */}
                   <div className="pt-2 space-y-3">
-                    {/* Kepala Sekolah */}
-                    {session.role === 'kepala_sekolah' && data.status === 'pending_approval' && (
+                    {/* Ketua Yayasan */}
+                    {session.role === 'ketua_yayasan' && data.status === 'pending_approval' && (
                       !showRejectForm ? (
                         <div className="flex gap-3">
                           <button onClick={() => doAction(`/api/pengajuan/${id}/approve`)} disabled={actionLoading}
@@ -377,8 +441,8 @@ function DetailModal({ id, session, onClose, onRefresh }: {
                       </div>
                     )}
 
-                    {/* Guru — Upload Nota */}
-                    {session.role === 'guru' && data.status === 'menunggu_nota' && (
+                    {/* Pengaju — Upload Nota */}
+                    {SUBMITTER_ROLES.includes(session.role) && data.status === 'menunggu_nota' && (
                       !showUploadNota ? (
                         <button onClick={() => setShowUploadNota(true)}
                           className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl text-sm">
@@ -389,7 +453,7 @@ function DetailModal({ id, session, onClose, onRefresh }: {
                           <div className="grid grid-cols-2 gap-3">
                             <div>
                               <label className="block text-xs font-semibold text-slate-600 mb-1">Nominal Aktual *</label>
-                              <input name="nominal_aktual" type="number" required min="0" step="1000"
+                              <CurrencyInput name="nominal_aktual" required
                                 className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                             </div>
                             <div>
@@ -417,8 +481,8 @@ function DetailModal({ id, session, onClose, onRefresh }: {
                       )
                     )}
 
-                    {/* Guru — Draft actions */}
-                    {session.role === 'guru' && data.status === 'draft' && (
+                    {/* Pengaju — Draft actions */}
+                    {SUBMITTER_ROLES.includes(session.role) && data.status === 'draft' && (
                       <div className="flex gap-3">
                         <button onClick={async () => {
                           setActionLoading(true)
@@ -494,15 +558,15 @@ export default function PengajuanList({ session }: { session: SessionPayload }) 
   }
 
   const filtered = search
-    ? data.filter((p) => p.nama_barang.toLowerCase().includes(search.toLowerCase()) || p.guru_nama?.toLowerCase().includes(search.toLowerCase()))
+    ? data.filter((p) => p.nama_barang.toLowerCase().includes(search.toLowerCase()) || p.pengaju_nama?.toLowerCase().includes(search.toLowerCase()))
     : data
 
-  const title = session.role === 'guru' ? 'Pengajuan Saya' : 'Semua Pengajuan'
+  const title = SUBMITTER_ROLES.includes(session.role) ? 'Pengajuan Saya' : 'Semua Pengajuan'
 
   return (
     <DashboardLayout title={title} role={session.role} nama={session.nama}>
       {/* Modals */}
-      {showForm && session.role === 'guru' && (
+      {showForm && SUBMITTER_ROLES.includes(session.role) && (
         <FormModal session={session} onClose={() => setShowForm(false)} onSuccess={fetchData} />
       )}
       {selectedId !== null && (
@@ -524,7 +588,7 @@ export default function PengajuanList({ session }: { session: SessionPayload }) 
               {STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
             </select>
           </div>
-          {session.role === 'guru' && (
+          {SUBMITTER_ROLES.includes(session.role) && (
             <button onClick={() => setShowForm(true)}
               className="ml-auto flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
               <Plus size={16} /> Buat Pengajuan
@@ -542,7 +606,7 @@ export default function PengajuanList({ session }: { session: SessionPayload }) 
             <div className="flex flex-col items-center justify-center h-48 text-slate-300">
               <FileText size={32} className="mb-2" />
               <p className="text-sm text-slate-400">{search ? 'Tidak ada hasil pencarian' : 'Belum ada pengajuan'}</p>
-              {session.role === 'guru' && !search && (
+              {SUBMITTER_ROLES.includes(session.role) && !search && (
                 <button onClick={() => setShowForm(true)} className="mt-3 text-sm text-blue-600 hover:underline font-medium">
                   Buat pengajuan pertama
                 </button>
@@ -555,11 +619,12 @@ export default function PengajuanList({ session }: { session: SessionPayload }) 
                   <tr className="border-b border-slate-100 bg-slate-50">
                     <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500">Nama Barang</th>
                     <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden sm:table-cell">Kategori</th>
-                    {session.role !== 'guru' && <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden md:table-cell">Guru</th>}
+                    {!SUBMITTER_ROLES.includes(session.role) && <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden md:table-cell">Pengaju</th>}
                     <th className="px-5 py-3 text-center text-xs font-semibold text-slate-500 hidden sm:table-cell">Qty</th>
                     <th className="px-5 py-3 text-right text-xs font-semibold text-slate-500">Estimasi</th>
+                    <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden md:table-cell">Tgl Pengajuan</th>
                     <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500">Status</th>
-                    {session.role !== 'guru' && <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden lg:table-cell">Disetujui Oleh</th>}
+                    {!SUBMITTER_ROLES.includes(session.role) && <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden lg:table-cell">Disetujui Oleh</th>}
                     <th className="px-5 py-3" />
                   </tr>
                 </thead>
@@ -571,11 +636,17 @@ export default function PengajuanList({ session }: { session: SessionPayload }) 
                         <p className="text-xs text-slate-400 sm:hidden mt-0.5">{p.kategori_nama}</p>
                       </td>
                       <td className="px-5 py-3.5 text-sm text-slate-500 hidden sm:table-cell">{p.kategori_nama}</td>
-                      {session.role !== 'guru' && <td className="px-5 py-3.5 text-sm text-slate-500 hidden md:table-cell">{p.guru_nama}</td>}
+                      {!SUBMITTER_ROLES.includes(session.role) && <td className="px-5 py-3.5 text-sm text-slate-500 hidden md:table-cell">{p.pengaju_nama}</td>}
                       <td className="px-5 py-3.5 text-sm text-center text-slate-500 hidden sm:table-cell">{p.quantity ?? 1}</td>
                       <td className="px-5 py-3.5 text-sm text-right font-medium text-slate-700">{formatRupiah(p.estimasi_harga)}</td>
+                      <td className="px-5 py-3.5 text-sm text-slate-500 hidden md:table-cell">
+                        {formatDate(p.tanggal_pengajuan)}
+                        {p.status === 'pending_approval' && (
+                          <p className="text-xs text-orange-500 font-medium mt-0.5">{daysPending(p.tanggal_pengajuan)} hari menunggu</p>
+                        )}
+                      </td>
                       <td className="px-5 py-3.5"><StatusBadge status={p.status as StatusPengajuan} /></td>
-                      {session.role !== 'guru' && (
+                      {!SUBMITTER_ROLES.includes(session.role) && (
                         <td className="px-5 py-3.5 hidden lg:table-cell">
                           {p.approved_by_nama
                             ? <span className="text-xs text-green-600 font-medium">{p.approved_by_nama}</span>

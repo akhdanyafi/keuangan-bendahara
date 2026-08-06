@@ -5,10 +5,10 @@ const PUBLIC_PATHS = ['/login']
 
 // Hanya untuk page (bukan API) — API mengurus otorisasinya sendiri per method
 const ROLE_PAGES: Record<string, string[]> = {
-  '/approval': ['kepala_sekolah'],
+  '/approval': ['ketua_yayasan'],
   '/pencairan': ['bendahara'],
   '/verifikasi-nota': ['bendahara'],
-  '/laporan': ['bendahara', 'kepala_sekolah'],
+  '/laporan': ['bendahara', 'ketua_yayasan'],
   '/pengguna': ['bendahara'],
   '/budget': ['bendahara'],
   '/kategori': ['bendahara'],
@@ -60,5 +60,7 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|uploads).*)'],
+  // "uploads" sengaja TIDAK dikecualikan lagi — nota/lampiran berisi dokumen keuangan,
+  // jadi harus tetap lewat pengecekan sesi seperti halaman lain, bukan file publik.
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 }

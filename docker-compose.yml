@@ -1,0 +1,15 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: sikaya
+    ports:
+      - "3306:3306"
+    volumes:
+      - sikaya_db_data:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/01-database.sql:ro
+
+volumes:
+  sikaya_db_data:

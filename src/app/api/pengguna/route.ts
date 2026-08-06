@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth'
 import { query, queryOne } from '@/lib/db'
 import bcrypt from 'bcryptjs'
+import { ALL_ROLES } from '@/types'
 
 export async function GET() {
   const session = await getSession()
@@ -22,6 +23,9 @@ export async function POST(req: NextRequest) {
   const { nama, email, password, role } = await req.json()
   if (!nama || !email || !password || !role) {
     return NextResponse.json({ error: 'Semua field wajib diisi' }, { status: 400 })
+  }
+  if (!ALL_ROLES.includes(role)) {
+    return NextResponse.json({ error: 'Role tidak valid' }, { status: 400 })
   }
 
   const existing = await queryOne('SELECT id FROM users WHERE email = ?', [email])

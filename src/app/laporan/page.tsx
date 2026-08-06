@@ -5,7 +5,7 @@ import LaporanClient from './LaporanClient'
 export default async function LaporanPage() {
   const session = await getSession()
   if (!session) redirect('/login')
-  if (!['bendahara', 'kepala_sekolah'].includes(session.role)) redirect('/dashboard')
+  if (!['bendahara', 'ketua_yayasan'].includes(session.role)) redirect('/dashboard')
 
   return <LaporanClient session={session} />
 }

@@ -6,8 +6,9 @@ import DashboardLayout from '@/app/dashboard-layout'
 import StatusBadge from '@/components/StatusBadge'
 import type { SessionPayload } from '@/lib/auth'
 import type { Pengajuan, StatusPengajuan } from '@/types'
-import { formatRupiah, formatDate, formatDateTime } from '@/types'
+import { formatRupiah, formatDate, formatDateTime, daysPending, SUBMITTER_ROLES } from '@/types'
 import Image from 'next/image'
+import CurrencyInput from '@/components/CurrencyInput'
 import { ArrowLeft, CheckCircle, XCircle, Banknote, Shield, RefreshCw, Upload, Trash2, Send } from 'lucide-react'
 
 export default function PengajuanDetail({ id, session }: { id: string; session: SessionPayload }) {
@@ -105,12 +106,17 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
 
           <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
             <div>
-              <p className="text-xs text-slate-400 mb-0.5">Guru Pengaju</p>
-              <p className="font-medium text-slate-700">{data.guru_nama}</p>
+              <p className="text-xs text-slate-400 mb-0.5">Pengaju</p>
+              <p className="font-medium text-slate-700">{data.pengaju_nama}</p>
             </div>
             <div>
               <p className="text-xs text-slate-400 mb-0.5">Tanggal Pengajuan</p>
-              <p className="text-slate-700">{formatDate(data.tanggal_pengajuan)}</p>
+              <p className="text-slate-700">
+                {formatDate(data.tanggal_pengajuan)}
+                {data.status === 'pending_approval' && (
+                  <span className="text-orange-500 font-medium"> · {daysPending(data.tanggal_pengajuan)} hari menunggu</span>
+                )}
+              </p>
             </div>
             <div>
               <p className="text-xs text-slate-400 mb-0.5">Estimasi Harga</p>
@@ -131,6 +137,33 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
               </div>
             )}
           </div>
+
+          {/* Rincian barang */}
+          {data.items && data.items.length > 0 && (
+            <div className="mt-4">
+              <p className="text-xs text-slate-400 mb-1.5">Rincian Barang</p>
+              <div className="border border-slate-200 rounded-lg overflow-hidden">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-slate-50 text-xs text-slate-500">
+                      <th className="px-3 py-2 text-left font-semibold">Nama Barang</th>
+                      <th className="px-3 py-2 text-center font-semibold w-14">Qty</th>
+                      <th className="px-3 py-2 text-right font-semibold">Estimasi</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {data.items.map((it) => (
+                      <tr key={it.id}>
+                        <td className="px-3 py-2 text-slate-700">{it.nama_barang}</td>
+                        <td className="px-3 py-2 text-center text-slate-500">{it.quantity}</td>
+                        <td className="px-3 py-2 text-right text-slate-700">{formatRupiah(it.estimasi_harga)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Timeline */}
@@ -188,8 +221,8 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
         )}
 
         {/* Actions */}
-        {/* Kepala Sekolah - Approve/Reject */}
-        {session.role === 'kepala_sekolah' && data.status === 'pending_approval' && (
+        {/* Ketua Yayasan - Approve/Reject */}
+        {session.role === 'ketua_yayasan' && data.status === 'pending_approval' && (
           <div className="bg-white rounded-xl border border-slate-200 p-5">
             <h4 className="text-sm font-semibold text-slate-700 mb-3">Tindakan Persetujuan</h4>
             {!showRejectForm ? (
@@ -247,8 +280,8 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
           </div>
         )}
 
-        {/* Guru - Upload Nota */}
-        {session.role === 'guru' && data.status === 'menunggu_nota' && (
+        {/* Pengaju - Upload Nota */}
+        {SUBMITTER_ROLES.includes(session.role) && data.status === 'menunggu_nota' && (
           <div className="bg-white rounded-xl border border-slate-200 p-5">
             <h4 className="text-sm font-semibold text-slate-700 mb-3">Upload Nota Pembelian</h4>
             {!showUploadNota ? (
@@ -260,7 +293,7 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
               <form onSubmit={handleUploadNota} className="space-y-3">
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1">Nominal Aktual (Rp) *</label>
-                  <input name="nominal_aktual" type="number" required min="0" step="1000"
+                  <CurrencyInput name="nominal_aktual" required
                     className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
                 <div>
@@ -291,8 +324,8 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
           </div>
         )}
 
-        {/* Guru - Submit/Hapus Draft */}
-        {session.role === 'guru' && data.status === 'draft' && (
+        {/* Pengaju - Submit/Hapus Draft */}
+        {SUBMITTER_ROLES.includes(session.role) && data.status === 'draft' && (
           <div className="flex gap-3">
             <button onClick={async () => {
               setActionLoading(true)

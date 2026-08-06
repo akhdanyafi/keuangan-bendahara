@@ -5,9 +5,10 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import {
   LayoutDashboard, FileText, CheckSquare, Banknote,
-  Receipt, BarChart3, Wallet, Users, School, Tag, Menu, X,
+  Receipt, BarChart3, Wallet, Users, Tag, Menu, X,
 } from 'lucide-react'
-import type { Role } from '@/types'
+import { ROLE_LABEL, SUBMITTER_ROLES, APP_NAME, type Role } from '@/types'
+import Logo from './Logo'
 
 interface NavItem {
   href: string
@@ -17,23 +18,17 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { href: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} />, roles: ['guru', 'kepala_sekolah', 'bendahara'] },
-  { href: '/pengajuan', label: 'Pengajuan Saya', icon: <FileText size={18} />, roles: ['guru'] },
-  { href: '/pengajuan', label: 'Semua Pengajuan', icon: <FileText size={18} />, roles: ['kepala_sekolah', 'bendahara'] },
-  { href: '/approval', label: 'Persetujuan', icon: <CheckSquare size={18} />, roles: ['kepala_sekolah'] },
+  { href: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} />, roles: ['ketua_yayasan', 'bendahara', 'komponen_sekolah', 'karyawan_yayasan'] },
+  { href: '/pengajuan', label: 'Pengajuan Saya', icon: <FileText size={18} />, roles: SUBMITTER_ROLES },
+  { href: '/pengajuan', label: 'Semua Pengajuan', icon: <FileText size={18} />, roles: ['ketua_yayasan', 'bendahara'] },
+  { href: '/approval', label: 'Persetujuan', icon: <CheckSquare size={18} />, roles: ['ketua_yayasan'] },
   { href: '/pencairan', label: 'Pencairan Dana', icon: <Banknote size={18} />, roles: ['bendahara'] },
   { href: '/verifikasi-nota', label: 'Verifikasi Nota', icon: <Receipt size={18} />, roles: ['bendahara'] },
-  { href: '/laporan', label: 'Laporan', icon: <BarChart3 size={18} />, roles: ['bendahara', 'kepala_sekolah'] },
+  { href: '/laporan', label: 'Laporan', icon: <BarChart3 size={18} />, roles: ['bendahara', 'ketua_yayasan'] },
   { href: '/budget', label: 'Anggaran', icon: <Wallet size={18} />, roles: ['bendahara'] },
   { href: '/kategori', label: 'Kategori', icon: <Tag size={18} />, roles: ['bendahara'] },
   { href: '/pengguna', label: 'Pengguna', icon: <Users size={18} />, roles: ['bendahara'] },
 ]
-
-const ROLE_LABEL: Record<Role, string> = {
-  guru: 'Guru',
-  kepala_sekolah: 'Kepala Sekolah',
-  bendahara: 'Bendahara',
-}
 
 interface Props { role: Role; nama: string }
 
@@ -47,12 +42,10 @@ function SidebarContent({ role, nama, onClose }: Props & { onClose?: () => void 
       {/* Logo */}
       <div className="px-5 py-5 border-b border-slate-800 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center shrink-0">
-            <School size={18} className="text-white" />
-          </div>
+          <Logo size={36} />
           <div>
-            <p className="text-sm font-bold text-white leading-tight">SIMAS Keuangan</p>
-            <p className="text-xs text-slate-400 leading-tight mt-0.5">SMP Negeri 1</p>
+            <p className="text-sm font-bold text-white leading-tight">{APP_NAME}</p>
+            <p className="text-xs text-slate-400 leading-tight mt-0.5">Yayasan Yaspida</p>
           </div>
         </div>
         {onClose && (

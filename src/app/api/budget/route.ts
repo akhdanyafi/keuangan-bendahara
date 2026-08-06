@@ -32,6 +32,10 @@ export async function POST(req: NextRequest) {
 
   const { kategori_id, tahun, jumlah } = await req.json()
 
+  if (!kategori_id || !tahun || !(Number(jumlah) >= 0)) {
+    return NextResponse.json({ error: 'Data anggaran tidak valid' }, { status: 400 })
+  }
+
   await queryOne(
     `INSERT INTO budget (kategori_id, tahun, jumlah) VALUES (?, ?, ?)
      ON DUPLICATE KEY UPDATE jumlah = ?`,

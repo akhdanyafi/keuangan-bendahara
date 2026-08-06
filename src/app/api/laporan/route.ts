@@ -6,6 +6,9 @@ import * as XLSX from 'xlsx'
 export async function GET(req: NextRequest) {
   const session = await getSession()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!['bendahara', 'ketua_yayasan'].includes(session.role)) {
+    return NextResponse.json({ error: 'Akses ditolak' }, { status: 403 })
+  }
 
   const { searchParams } = new URL(req.url)
   const bulan = searchParams.get('bulan')
@@ -34,7 +37,7 @@ export async function GET(req: NextRequest) {
   const rows = await query(
     `SELECT
        p.id,
-       u.nama AS guru,
+       u.nama AS pengaju,
        k.nama AS kategori,
        p.nama_barang,
        p.estimasi_harga,
@@ -42,7 +45,7 @@ export async function GET(req: NextRequest) {
        p.tanggal_pengajuan,
        p.selesai_at AS tanggal_selesai
      FROM pengajuan p
-     JOIN users u ON p.guru_id = u.id
+     JOIN users u ON p.pengaju_id = u.id
      JOIN kategori k ON p.kategori_id = k.id
      ${where}
      ORDER BY p.selesai_at DESC`,
@@ -53,7 +56,7 @@ export async function GET(req: NextRequest) {
     const ws = XLSX.utils.json_to_sheet(
       (rows as Record<string, unknown>[]).map((r) => ({
         'No': r.id,
-        'Guru': r.guru,
+        'Pengaju': r.pengaju,
         'Kategori': r.kategori,
         'Nama Barang': r.nama_barang,
         'Estimasi (Rp)': r.estimasi_harga,

@@ -5,7 +5,7 @@ import ApprovalClient from './ApprovalClient'
 export default async function ApprovalPage() {
   const session = await getSession()
   if (!session) redirect('/login')
-  if (session.role !== 'kepala_sekolah') redirect('/dashboard')
+  if (session.role !== 'ketua_yayasan') redirect('/dashboard')
 
   return <ApprovalClient session={session} />
 }

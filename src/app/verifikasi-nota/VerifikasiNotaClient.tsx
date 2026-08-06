@@ -66,7 +66,7 @@ export default function VerifikasiNotaClient({ session }: { session: SessionPayl
                       <span className="font-semibold text-slate-800 text-sm">{p.nama_barang}</span>
                       <StatusBadge status={p.status} />
                     </div>
-                    <p className="text-xs text-slate-400">{p.guru_nama} &middot; {p.kategori_nama}</p>
+                    <p className="text-xs text-slate-400">{p.pengaju_nama} &middot; {p.kategori_nama}</p>
                   </div>
                   <button onClick={() => router.push(`/pengajuan/${p.id}`)}
                     className="flex items-center gap-1 text-xs text-blue-600 hover:underline shrink-0">
@@ -97,7 +97,7 @@ export default function VerifikasiNotaClient({ session }: { session: SessionPayl
                   </div>
                   {p.catatan_nota && (
                     <div className="col-span-2">
-                      <p className="text-xs text-slate-400 mb-0.5">Catatan Guru</p>
+                      <p className="text-xs text-slate-400 mb-0.5">Catatan Pengaju</p>
                       <p className="text-slate-600">{p.catatan_nota}</p>
                     </div>
                   )}

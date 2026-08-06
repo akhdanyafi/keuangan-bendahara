@@ -4,24 +4,20 @@ import { useEffect, useState } from 'react'
 import DashboardLayout from '@/app/dashboard-layout'
 import type { SessionPayload } from '@/lib/auth'
 import type { User, Role } from '@/types'
+import { ROLE_LABEL } from '@/types'
 import { UserPlus, Pencil, Users, Trash2 } from 'lucide-react'
 
-const ROLE_LABEL: Record<Role, string> = {
-  guru: 'Guru',
-  kepala_sekolah: 'Kepala Sekolah',
-  bendahara: 'Bendahara',
-}
-
 const ROLE_BADGE: Record<Role, string> = {
-  guru: 'bg-blue-100 text-blue-700',
-  kepala_sekolah: 'bg-purple-100 text-purple-700',
+  ketua_yayasan: 'bg-purple-100 text-purple-700',
   bendahara: 'bg-green-100 text-green-700',
+  komponen_sekolah: 'bg-blue-100 text-blue-700',
+  karyawan_yayasan: 'bg-amber-100 text-amber-700',
 }
 
 interface FormState {
   id?: number; nama: string; email: string; password: string; role: Role; aktif: number
 }
-const EMPTY: FormState = { nama: '', email: '', password: '', role: 'guru', aktif: 1 }
+const EMPTY: FormState = { nama: '', email: '', password: '', role: 'karyawan_yayasan', aktif: 1 }
 
 export default function PenggunaClient({ session }: { session: SessionPayload }) {
   const [users, setUsers] = useState<User[]>([])
@@ -133,9 +129,10 @@ export default function PenggunaClient({ session }: { session: SessionPayload })
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Role *</label>
                   <select value={form.role} onChange={(e) => setForm(f => ({...f, role: e.target.value as Role}))}
                     className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="guru">Guru</option>
-                    <option value="kepala_sekolah">Kepala Sekolah</option>
+                    <option value="ketua_yayasan">Ketua Yayasan</option>
                     <option value="bendahara">Bendahara</option>
+                    <option value="komponen_sekolah">Komponen Sekolah</option>
+                    <option value="karyawan_yayasan">Karyawan Yayasan</option>
                   </select>
                 </div>
                 {form.id && (

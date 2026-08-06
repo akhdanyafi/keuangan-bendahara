@@ -2,13 +2,26 @@ import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { queryOne } from '@/lib/db'
 import { signToken, COOKIE_NAME } from '@/lib/auth'
+import { checkRateLimit } from '@/lib/rateLimit'
 import type { User } from '@/types'
+
+const WINDOW_MS = 15 * 60 * 1000
 
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json()
 
   if (!email || !password) {
     return NextResponse.json({ error: 'Email dan password wajib diisi' }, { status: 400 })
+  }
+
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown'
+  const tooManyByEmail = !checkRateLimit(`login:email:${String(email).toLowerCase()}`, 5, WINDOW_MS)
+  const tooManyByIp = !checkRateLimit(`login:ip:${ip}`, 20, WINDOW_MS)
+  if (tooManyByEmail || tooManyByIp) {
+    return NextResponse.json(
+      { error: 'Terlalu banyak percobaan login. Coba lagi dalam beberapa menit.' },
+      { status: 429 }
+    )
   }
 
   const user = await queryOne<User & { password: string }>(

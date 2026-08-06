@@ -7,7 +7,7 @@ import { formatRupiah, formatDate } from '@/types'
 import { Download, Filter, FileSpreadsheet } from 'lucide-react'
 
 interface LaporanRow {
-  id: number; guru: string; kategori: string; nama_barang: string
+  id: number; pengaju: string; kategori: string; nama_barang: string
   estimasi_harga: number; nominal_aktual: number
   tanggal_pengajuan: string; tanggal_selesai: string
 }
@@ -128,7 +128,7 @@ export default function LaporanClient({ session }: { session: SessionPayload }) 
                   <tr className="border-b border-slate-100 bg-slate-50">
                     <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 w-8">No</th>
                     <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500">Nama Barang</th>
-                    <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500">Guru</th>
+                    <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500">Pengaju</th>
                     <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500">Kategori</th>
                     <th className="px-5 py-3 text-right text-xs font-semibold text-slate-500">Estimasi</th>
                     <th className="px-5 py-3 text-right text-xs font-semibold text-slate-500">Realisasi</th>
@@ -142,7 +142,7 @@ export default function LaporanClient({ session }: { session: SessionPayload }) 
                       <tr key={row.id} className="hover:bg-slate-50/80 transition-colors">
                         <td className="px-5 py-3.5 text-xs text-slate-300">{i + 1}</td>
                         <td className="px-5 py-3.5 text-sm font-medium text-slate-700">{row.nama_barang}</td>
-                        <td className="px-5 py-3.5 text-sm text-slate-500">{row.guru}</td>
+                        <td className="px-5 py-3.5 text-sm text-slate-500">{row.pengaju}</td>
                         <td className="px-5 py-3.5 text-sm text-slate-500">{row.kategori}</td>
                         <td className="px-5 py-3.5 text-sm text-right text-slate-500">{formatRupiah(row.estimasi_harga)}</td>
                         <td className="px-5 py-3.5 text-right">
