@@ -11,7 +11,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const body = await req.json().catch(() => ({}))
   const catatan_pencairan = body.catatan_pencairan || null
 
-  const row = await queryOne<{ status: string; guru_id: number }>('SELECT status, guru_id FROM pengajuan WHERE id = ?', [id])
+  const row = await queryOne<{ status: string; pengaju_id: number }>('SELECT status, pengaju_id FROM pengajuan WHERE id = ?', [id])
   if (!row) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
   if (row.status !== 'approved') {
     return NextResponse.json({ error: 'Pengajuan belum disetujui' }, { status: 400 })
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   await queryOne(
     `INSERT INTO notifikasi (user_id, pengajuan_id, pesan) VALUES (?, ?, ?)`,
-    [row.guru_id, id, 'Dana pengajuan Anda telah dicairkan. Silakan upload nota setelah pembelian.']
+    [row.pengaju_id, id, 'Dana pengajuan Anda telah dicairkan. Silakan upload nota setelah pembelian.']
   )
 
   return NextResponse.json({ ok: true })

@@ -1,4 +1,18 @@
-export type Role = 'guru' | 'kepala_sekolah' | 'bendahara'
+export const APP_NAME = 'SIKAYA'
+export const APP_FULL_NAME = 'Sistem Keuangan Anggaran Yaspida'
+
+export type Role = 'ketua_yayasan' | 'bendahara' | 'komponen_sekolah' | 'karyawan_yayasan'
+
+export const SUBMITTER_ROLES: Role[] = ['komponen_sekolah', 'karyawan_yayasan']
+
+export const ROLE_LABEL: Record<Role, string> = {
+  ketua_yayasan: 'Ketua Yayasan',
+  bendahara: 'Bendahara',
+  komponen_sekolah: 'Komponen Sekolah',
+  karyawan_yayasan: 'Karyawan Yayasan',
+}
+
+export const ALL_ROLES = Object.keys(ROLE_LABEL) as Role[]
 
 export type StatusPengajuan =
   | 'draft'
@@ -25,6 +39,13 @@ export interface Kategori {
   aktif: number
 }
 
+export interface PengajuanItem {
+  id: number
+  nama_barang: string
+  quantity: number
+  estimasi_harga: number
+}
+
 export interface Budget {
   id: number
   kategori_id: number
@@ -38,12 +59,13 @@ export interface Budget {
 
 export interface Pengajuan {
   id: number
-  guru_id: number
-  guru_nama: string
+  pengaju_id: number
+  pengaju_nama: string
   nama_barang: string
   quantity: number
   kategori_id: number
   kategori_nama: string
+  items?: PengajuanItem[]
   alasan: string
   estimasi_harga: number
   vendor: string | null
@@ -125,4 +147,12 @@ export function formatDateTime(value: string | null | undefined): string {
     hour: '2-digit',
     minute: '2-digit',
   })
+}
+
+export function daysPending(tanggalPengajuan: string): number {
+  const start = new Date(tanggalPengajuan)
+  start.setHours(0, 0, 0, 0)
+  const now = new Date()
+  now.setHours(0, 0, 0, 0)
+  return Math.max(0, Math.round((now.getTime() - start.getTime()) / 86400000))
 }

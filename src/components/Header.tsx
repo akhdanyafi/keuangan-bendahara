@@ -2,18 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { Bell, ChevronRight } from 'lucide-react'
-import type { Role } from '@/types'
+import { ROLE_LABEL, type Role } from '@/types'
 
 interface Props {
   title: string
   role: Role
   nama: string
-}
-
-const ROLE_LABEL: Record<Role, string> = {
-  guru: 'Guru',
-  kepala_sekolah: 'Kepala Sekolah',
-  bendahara: 'Bendahara',
 }
 
 export default function Header({ title, role, nama }: Props) {
@@ -47,7 +41,7 @@ export default function Header({ title, role, nama }: Props) {
     <header className="bg-white border-b border-slate-200 px-4 lg:px-6 h-14 flex items-center justify-between shrink-0 pl-14 lg:pl-6">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm">
-        <span className="text-slate-400">SMP Negeri 1 Jakarta Selatan</span>
+        <span className="text-slate-400">Yayasan Yaspida</span>
         <ChevronRight size={14} className="text-slate-300" />
         <span className="font-semibold text-slate-700">{title}</span>
       </div>

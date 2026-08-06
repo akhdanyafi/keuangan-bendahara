@@ -10,7 +10,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   const { id } = await params
   const { action } = await req.json()
 
-  const row = await queryOne<{ status: string; guru_id: number }>('SELECT status, guru_id FROM pengajuan WHERE id = ?', [id])
+  const row = await queryOne<{ status: string; pengaju_id: number }>('SELECT status, pengaju_id FROM pengajuan WHERE id = ?', [id])
   if (!row) return NextResponse.json({ error: 'Tidak ditemukan' }, { status: 404 })
   if (row.status !== 'nota_diverifikasi') {
     return NextResponse.json({ error: 'Nota belum diupload' }, { status: 400 })
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     )
     await queryOne(
       `INSERT INTO notifikasi (user_id, pengajuan_id, pesan) VALUES (?, ?, ?)`,
-      [row.guru_id, id, 'Nota pembelian Anda telah diverifikasi. Transaksi selesai.']
+      [row.pengaju_id, id, 'Nota pembelian Anda telah diverifikasi. Transaksi selesai.']
     )
   } else if (action === 'minta_perbaikan') {
     await queryOne(
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     )
     await queryOne(
       `INSERT INTO notifikasi (user_id, pengajuan_id, pesan) VALUES (?, ?, ?)`,
-      [row.guru_id, id, 'Nota Anda perlu diperbaiki. Silakan upload ulang nota pembelian.']
+      [row.pengaju_id, id, 'Nota Anda perlu diperbaiki. Silakan upload ulang nota pembelian.']
     )
   } else {
     return NextResponse.json({ error: 'Aksi tidak valid' }, { status: 400 })

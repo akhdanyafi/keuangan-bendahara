@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth'
 import { query, queryOne } from '@/lib/db'
+import { SUBMITTER_ROLES } from '@/types'
+
+const DISETUJUI_STATUSES = ['approved', 'dana_dicairkan', 'menunggu_nota', 'nota_diverifikasi', 'selesai']
 
 export async function GET() {
   const session = await getSession()
@@ -60,9 +63,9 @@ export async function GET() {
   const aktivitasTerbaru = await query(
     `SELECT p.id, p.nama_barang, p.estimasi_harga, p.nominal_aktual, p.status,
             p.created_at, p.tanggal_pengajuan,
-            u.nama AS guru_nama, k.nama AS kategori_nama
+            u.nama AS pengaju_nama, k.nama AS kategori_nama
      FROM pengajuan p
-     JOIN users u ON p.guru_id = u.id
+     JOIN users u ON p.pengaju_id = u.id
      JOIN kategori k ON p.kategori_id = k.id
      ORDER BY p.updated_at DESC LIMIT 8`
   )
@@ -72,6 +75,38 @@ export async function GET() {
     const found = grafikBulanan.find((g) => g.bulan === i + 1)
     return { bulan: label, total: found ? Number(found.total) : 0 }
   })
+
+  // Ringkasan khusus pengaju (komponen_sekolah / karyawan_yayasan): total pengajuan yang
+  // sudah disetujui, dan daftar pengajuan miliknya yang masih menunggu approval (dengan
+  // tanggal pengajuan, agar terlihat sudah berapa lama pending).
+  let pengajuSummary: {
+    totalDisetujui: number
+    totalNominalDisetujui: number
+    pendingSaya: Record<string, unknown>[]
+  } | null = null
+
+  if (SUBMITTER_ROLES.includes(session.role)) {
+    const disetujui = await queryOne<{ total: number; nominal: number }>(
+      `SELECT COUNT(*) as total, COALESCE(SUM(COALESCE(nominal_aktual, estimasi_harga)), 0) as nominal
+       FROM pengajuan WHERE pengaju_id = ? AND status IN (${DISETUJUI_STATUSES.map(() => '?').join(',')})`,
+      [session.userId, ...DISETUJUI_STATUSES]
+    )
+
+    const pendingSaya = await query<Record<string, unknown>>(
+      `SELECT p.id, p.nama_barang, p.estimasi_harga, p.tanggal_pengajuan, k.nama AS kategori_nama
+       FROM pengajuan p
+       JOIN kategori k ON p.kategori_id = k.id
+       WHERE p.pengaju_id = ? AND p.status = 'pending_approval'
+       ORDER BY p.tanggal_pengajuan ASC`,
+      [session.userId]
+    )
+
+    pengajuSummary = {
+      totalDisetujui: Number(disetujui?.total || 0),
+      totalNominalDisetujui: Number(disetujui?.nominal || 0),
+      pendingSaya,
+    }
+  }
 
   return NextResponse.json({
     cards: {
@@ -84,5 +119,6 @@ export async function GET() {
     grafikKategori: grafikKategori.map((g) => ({ ...g, total: Number(g.total) })),
     budgetKategori,
     aktivitasTerbaru,
+    pengajuSummary,
   })
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth'
 import { queryOne } from '@/lib/db'
 import bcrypt from 'bcryptjs'
+import { ALL_ROLES } from '@/types'
 
 // DELETE: hapus permanen jika tidak punya data terkait, nonaktifkan jika punya
 
@@ -13,6 +14,13 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 
   const { id } = await params
   const { nama, email, password, role, aktif } = await req.json()
+
+  if (!nama || !email || !role) {
+    return NextResponse.json({ error: 'Nama, email, dan role wajib diisi' }, { status: 400 })
+  }
+  if (!ALL_ROLES.includes(role)) {
+    return NextResponse.json({ error: 'Role tidak valid' }, { status: 400 })
+  }
 
   const user = await queryOne<{ id: number }>('SELECT id FROM users WHERE id = ?', [id])
   if (!user) return NextResponse.json({ error: 'User tidak ditemukan' }, { status: 404 })
@@ -49,7 +57,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   // Cek apakah user memiliki data terkait
   const related = await queryOne<{ total: number }>(
     `SELECT COUNT(*) as total FROM pengajuan
-     WHERE guru_id = ? OR approved_by = ? OR dicairkan_by = ? OR nota_verified_by = ?`,
+     WHERE pengaju_id = ? OR approved_by = ? OR dicairkan_by = ? OR nota_verified_by = ?`,
     [id, id, id, id]
   )
 

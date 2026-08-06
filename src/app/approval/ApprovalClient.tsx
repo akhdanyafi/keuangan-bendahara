@@ -5,11 +5,11 @@ import DashboardLayout from '@/app/dashboard-layout'
 import StatusBadge from '@/components/StatusBadge'
 import type { SessionPayload } from '@/lib/auth'
 import type { Pengajuan } from '@/types'
-import { formatRupiah, formatDate } from '@/types'
+import { formatRupiah, formatDate, daysPending } from '@/types'
 import { CheckSquare, Clock, X, CheckCircle, XCircle } from 'lucide-react'
 import { formatDateTime } from '@/types'
 
-/* ── inline detail modal untuk kepala sekolah ── */
+/* ── inline detail modal untuk ketua yayasan ── */
 function ApprovalDetailModal({ id, session, onClose, onRefresh }: {
   id: number; session: SessionPayload; onClose: () => void; onRefresh: () => void
 }) {
@@ -53,28 +53,56 @@ function ApprovalDetailModal({ id, session, onClose, onRefresh }: {
           <div className="overflow-y-auto flex-1 p-6 space-y-4">
             <div>
               <h2 className="font-bold text-slate-800 text-lg">{data.nama_barang}</h2>
-              <p className="text-sm text-slate-400 mt-0.5">{data.guru_nama} · {data.kategori_nama}</p>
+              <p className="text-sm text-slate-400 mt-0.5">{data.pengaju_nama} · {data.kategori_nama}</p>
             </div>
 
             {error && <div className="px-3 py-2.5 bg-red-50 border border-red-100 rounded-lg text-red-600 text-sm">{error}</div>}
 
             <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
-              <div><p className="text-xs text-slate-400 mb-0.5">Tanggal Pengajuan</p><p className="font-medium text-slate-700">{formatDate(data.tanggal_pengajuan)}</p></div>
-              <div><p className="text-xs text-slate-400 mb-0.5">Jumlah (Qty)</p><p className="font-medium text-slate-700">{data.quantity ?? 1} unit</p></div>
+              <div>
+                <p className="text-xs text-slate-400 mb-0.5">Tanggal Pengajuan</p>
+                <p className="font-medium text-slate-700">
+                  {formatDate(data.tanggal_pengajuan)}
+                  {data.status === 'pending_approval' && (
+                    <span className="text-orange-500 font-medium text-xs"> · {daysPending(data.tanggal_pengajuan)} hari menunggu</span>
+                  )}
+                </p>
+              </div>
+              <div><p className="text-xs text-slate-400 mb-0.5">Jumlah Barang</p><p className="font-medium text-slate-700">{data.items?.length ?? 1} jenis</p></div>
               <div><p className="text-xs text-slate-400 mb-0.5">Vendor / Toko</p><p className="text-slate-700">{data.vendor || '—'}</p></div>
               <div><p className="text-xs text-slate-400 mb-0.5">Disubmit</p><p className="text-slate-700">{formatDateTime(data.submitted_at)}</p></div>
               <div className="col-span-2"><p className="text-xs text-slate-400 mb-0.5">Alasan Pembelian</p><p className="text-slate-700">{data.alasan}</p></div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-blue-50 rounded-xl p-4">
-                <p className="text-xs text-blue-400 font-semibold mb-1">Estimasi Biaya</p>
-                <p className="text-xl font-bold text-blue-600">{formatRupiah(data.estimasi_harga)}</p>
+            {data.items && data.items.length > 0 && (
+              <div>
+                <p className="text-xs text-slate-400 mb-1.5">Rincian Barang</p>
+                <div className="border border-slate-200 rounded-xl overflow-hidden">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-slate-50 text-xs text-slate-500">
+                        <th className="px-3 py-2 text-left font-semibold">Nama Barang</th>
+                        <th className="px-3 py-2 text-center font-semibold w-14">Qty</th>
+                        <th className="px-3 py-2 text-right font-semibold">Estimasi</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {data.items.map((it) => (
+                        <tr key={it.id}>
+                          <td className="px-3 py-2 text-slate-700">{it.nama_barang}</td>
+                          <td className="px-3 py-2 text-center text-slate-500">{it.quantity}</td>
+                          <td className="px-3 py-2 text-right text-slate-700">{formatRupiah(it.estimasi_harga)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-              <div className="bg-slate-50 rounded-xl p-4">
-                <p className="text-xs text-slate-400 font-semibold mb-1">Qty × Harga</p>
-                <p className="text-sm text-slate-500">{data.quantity ?? 1} × {formatRupiah(data.estimasi_harga / (data.quantity || 1))}</p>
-              </div>
+            )}
+
+            <div className="bg-blue-50 rounded-xl p-4">
+              <p className="text-xs text-blue-400 font-semibold mb-1">Total Estimasi Biaya</p>
+              <p className="text-xl font-bold text-blue-600">{formatRupiah(data.estimasi_harga)}</p>
             </div>
 
             {data.status === 'pending_approval' && (
@@ -165,7 +193,7 @@ export default function ApprovalClient({ session }: { session: SessionPayload })
                 <thead>
                   <tr className="border-b border-slate-100 bg-slate-50">
                     <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500">Nama Barang</th>
-                    <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden sm:table-cell">Guru</th>
+                    <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden sm:table-cell">Pengaju</th>
                     <th className="px-5 py-3 text-right text-xs font-semibold text-slate-500">Estimasi</th>
                     <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500">Status</th>
                     <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden md:table-cell">Tanggal</th>
@@ -177,12 +205,17 @@ export default function ApprovalClient({ session }: { session: SessionPayload })
                     <tr key={p.id} className="hover:bg-slate-50/80 transition-colors">
                       <td className="px-5 py-3.5">
                         <p className="text-sm font-medium text-slate-700">{p.nama_barang}</p>
-                        <p className="text-xs text-slate-400 sm:hidden">{p.guru_nama}</p>
+                        <p className="text-xs text-slate-400 sm:hidden">{p.pengaju_nama}</p>
                       </td>
-                      <td className="px-5 py-3.5 text-sm text-slate-500 hidden sm:table-cell">{p.guru_nama}</td>
+                      <td className="px-5 py-3.5 text-sm text-slate-500 hidden sm:table-cell">{p.pengaju_nama}</td>
                       <td className="px-5 py-3.5 text-sm text-right font-medium text-slate-700">{formatRupiah(p.estimasi_harga)}</td>
                       <td className="px-5 py-3.5"><StatusBadge status={p.status} /></td>
-                      <td className="px-5 py-3.5 text-sm text-slate-400 hidden md:table-cell">{formatDate(p.tanggal_pengajuan)}</td>
+                      <td className="px-5 py-3.5 text-sm text-slate-400 hidden md:table-cell">
+                        {formatDate(p.tanggal_pengajuan)}
+                        {p.status === 'pending_approval' && (
+                          <p className="text-xs text-orange-500 font-medium mt-0.5">{daysPending(p.tanggal_pengajuan)} hari</p>
+                        )}
+                      </td>
                       <td className="px-5 py-3.5">
                         <button onClick={() => setSelectedId(p.id)} className="text-sm font-medium text-blue-600 hover:text-blue-800 whitespace-nowrap">
                           Review →
