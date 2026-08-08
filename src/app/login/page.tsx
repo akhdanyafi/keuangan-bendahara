@@ -185,14 +185,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* Feature pills */}
-          <div className="flex flex-wrap gap-2 mt-6 justify-center max-w-xs">
-            {['Pengajuan Online', 'Persetujuan Cepat', 'Laporan Real-time', 'Aman & Terenkripsi'].map((f) => (
-              <span key={f} className="px-3 py-1.5 bg-white/60 backdrop-blur-sm text-green-800 text-xs font-medium rounded-full border border-white/80 shadow-sm">
-                {f}
-              </span>
-            ))}
-          </div>
+          
         </div>
       </div>
     </div>
