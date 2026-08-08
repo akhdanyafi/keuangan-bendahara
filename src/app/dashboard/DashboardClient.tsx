@@ -262,12 +262,12 @@ function FullDashboard({ data }: { data: DashboardData }) {
   return (
     <div className="space-y-5">
       {/* 4 Cards */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {cards.map((c) => (
-          <div key={c.label} className="bg-white rounded-xl border border-slate-200 p-5 flex items-start justify-between">
-            <div>
+          <div key={c.label} className="bg-white rounded-xl border border-slate-200 p-4 sm:p-5 flex items-start justify-between gap-3">
+            <div className="min-w-0">
               <p className="text-xs font-medium text-slate-500 mb-2">{c.label}</p>
-              <p className={`text-xl font-bold ${c.color} mb-1`}>{c.value}</p>
+              <p className={`text-lg sm:text-xl font-bold ${c.color} mb-1 break-words`}>{c.value}</p>
               <p className="text-xs text-slate-400">{c.sub}</p>
             </div>
             <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${c.bg} shrink-0`}>
@@ -285,7 +285,7 @@ function FullDashboard({ data }: { data: DashboardData }) {
             <p className="text-xs text-slate-400 mt-0.5">Total realisasi yang sudah diverifikasi</p>
           </div>
           <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={data.grafikBulanan} barSize={28} margin={{ top: 0, right: 0, left: -10, bottom: 0 }}>
+            <BarChart data={data.grafikBulanan} maxBarSize={28} margin={{ top: 0, right: 0, left: -10, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
               <XAxis dataKey="bulan" tick={{ fontSize: 11, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11, fill: '#94a3b8' }} axisLine={false} tickLine={false} tickFormatter={formatJuta} />

@@ -42,9 +42,9 @@ function SidebarContent({ role, nama, onClose }: Props & { onClose?: () => void 
       {/* Logo */}
       <div className="px-5 py-5 border-b border-slate-800 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Logo size={36} />
+          <Logo size={48} />
           <div>
-            <p className="text-sm font-bold text-white leading-tight">{APP_NAME}</p>
+            <p className="text-lg font-bold text-white leading-tight">{APP_NAME}</p>
             <p className="text-xs text-slate-400 leading-tight mt-0.5">Yayasan Yaspida</p>
           </div>
         </div>

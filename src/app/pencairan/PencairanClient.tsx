@@ -70,10 +70,10 @@ export default function PencairanClient({ session }: { session: SessionPayload }
           ) : (
             <div className="divide-y divide-slate-50">
               {data.map((p) => (
-                <div key={p.id} className="p-5">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
+                <div key={p.id} className="p-4 sm:p-5">
+                  <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+                    <div className="flex-1 min-w-0 w-full">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
                         <span className="font-semibold text-slate-800 text-sm">{p.nama_barang}</span>
                         <StatusBadge status={p.status} />
                       </div>
@@ -87,10 +87,11 @@ export default function PencairanClient({ session }: { session: SessionPayload }
                         </p>
                       )}
                     </div>
-                    <div className="text-right shrink-0">
+                    {/* Di mobile nominal & tombol detail sejajar; di desktop bertumpuk rata kanan */}
+                    <div className="shrink-0 w-full sm:w-auto flex items-center justify-between gap-3 sm:block sm:text-right">
                       <p className="text-lg font-bold text-slate-800">{formatRupiah(p.estimasi_harga)}</p>
                       <button onClick={() => router.push(`/pengajuan/${p.id}`)}
-                        className="flex items-center gap-1 text-xs text-blue-600 hover:underline mt-1 ml-auto">
+                        className="flex items-center gap-1 text-xs text-blue-600 hover:underline shrink-0 sm:mt-1 sm:ml-auto">
                         Detail <ExternalLink size={11} />
                       </button>
                     </div>

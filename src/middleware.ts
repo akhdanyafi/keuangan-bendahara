@@ -62,5 +62,7 @@ export async function middleware(req: NextRequest) {
 export const config = {
   // "uploads" sengaja TIDAK dikecualikan lagi — nota/lampiran berisi dokumen keuangan,
   // jadi harus tetap lewat pengecekan sesi seperti halaman lain, bukan file publik.
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  // "logo.png" dan "assets" dikecualikan karena berisi aset branding (logo) yang harus
+  // tampil di halaman /login sebelum ada sesi.
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|logo.png|assets/).*)'],
 }

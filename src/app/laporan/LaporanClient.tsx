@@ -89,7 +89,7 @@ export default function LaporanClient({ session }: { session: SessionPayload }) 
             </div>
             {session.role === 'bendahara' && (
               <button onClick={handleExport}
-                className="ml-auto flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+                className="w-full sm:w-auto sm:ml-auto flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
                 <Download size={15} /> Export Excel
               </button>
             )}
@@ -97,7 +97,7 @@ export default function LaporanClient({ session }: { session: SessionPayload }) 
         </div>
 
         {/* Summary cards */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { label: 'Total Transaksi', value: String(data.length), color: 'text-slate-800' },
             { label: 'Total Estimasi', value: formatRupiah(totalEstimasi), color: 'text-slate-700' },
@@ -123,7 +123,8 @@ export default function LaporanClient({ session }: { session: SessionPayload }) 
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full">
+              {/* min-w wajib: tanpa ini tabel malah menyusut & teks kolom pecah, bukan scroll */}
+              <table className="w-full min-w-[820px]">
                 <thead>
                   <tr className="border-b border-slate-100 bg-slate-50">
                     <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 w-8">No</th>

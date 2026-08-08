@@ -59,10 +59,10 @@ export default function VerifikasiNotaClient({ session }: { session: SessionPayl
         ) : (
           <div className="space-y-4">
             {data.map((p) => (
-              <div key={p.id} className="bg-white rounded-xl border border-slate-200 p-5">
-                <div className="flex items-start justify-between mb-4">
-                  <div>
-                    <div className="flex items-center gap-2 mb-0.5">
+              <div key={p.id} className="bg-white rounded-xl border border-slate-200 p-4 sm:p-5">
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 mb-0.5">
                       <span className="font-semibold text-slate-800 text-sm">{p.nama_barang}</span>
                       <StatusBadge status={p.status} />
                     </div>
@@ -74,7 +74,7 @@ export default function VerifikasiNotaClient({ session }: { session: SessionPayl
                   </button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 text-sm mb-4 p-4 bg-slate-50 rounded-lg">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm mb-4 p-4 bg-slate-50 rounded-lg">
                   <div>
                     <p className="text-xs text-slate-400 mb-0.5">Tanggal Pembelian</p>
                     <p className="font-medium text-slate-700">{formatDate(p.tanggal_pembelian)}</p>
@@ -108,12 +108,12 @@ export default function VerifikasiNotaClient({ session }: { session: SessionPayl
                     <p className="text-xs font-semibold text-slate-500 mb-2">Foto Nota:</p>
                     <a href={p.foto_nota} target="_blank">
                       <Image src={p.foto_nota} alt="Nota" width={200} height={160}
-                        className="rounded-lg border border-slate-200 object-cover cursor-pointer hover:opacity-90 transition-opacity" />
+                        className="rounded-lg border border-slate-200 object-cover cursor-pointer hover:opacity-90 transition-opacity max-w-full h-auto" />
                     </a>
                   </div>
                 )}
 
-                <div className="flex gap-3">
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                   <button onClick={() => doVerifikasi(p.id, 'verifikasi')} disabled={actionLoading === p.id}
                     className="flex-1 flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-medium py-2.5 rounded-lg text-sm transition-colors disabled:opacity-50">
                     <Shield size={15} /> Verifikasi Nota

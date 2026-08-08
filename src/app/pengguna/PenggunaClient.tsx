@@ -166,7 +166,9 @@ export default function PenggunaClient({ session }: { session: SessionPayload })
               <p className="text-sm text-slate-400">Belum ada pengguna</p>
             </div>
           ) : (
-            <table className="w-full">
+            <div className="overflow-x-auto">
+            {/* min-w wajib: tanpa ini tabel menyusut & kolom aksi berdesakan, bukan scroll */}
+            <table className="w-full min-w-[760px]">
               <thead>
                 <tr className="border-b border-slate-100 bg-slate-50">
                   <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500">Nama</th>
@@ -222,6 +224,7 @@ export default function PenggunaClient({ session }: { session: SessionPayload })
                 ))}
               </tbody>
             </table>
+            </div>
           )}
         </div>
       </div>

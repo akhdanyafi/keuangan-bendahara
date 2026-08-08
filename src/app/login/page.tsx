@@ -40,13 +40,13 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex bg-white">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-white">
       {/* ── Left Panel ── */}
-      <div className="flex-1 flex flex-col justify-center px-10 py-12 max-w-[520px] mx-auto lg:mx-0">
+      <div className="order-2 lg:order-1 flex-1 flex flex-col justify-center px-6 sm:px-10 py-10 lg:py-12 max-w-[520px] mx-auto lg:mx-0 w-full">
         {/* Logo */}
-        <div className="flex items-center gap-2.5 mb-12">
-          <Logo size={32} />
-          <span className="text-lg font-bold text-slate-800 tracking-tight">{APP_NAME}</span>
+        <div className="flex items-center gap-3 mb-8 lg:mb-12">
+          <Logo size={52} />
+          <span className="text-2xl font-bold text-slate-800 tracking-tight">{APP_NAME}</span>
         </div>
 
         {/* Heading */}
@@ -153,55 +153,33 @@ export default function LoginPage() {
         </p>
       </div>
 
-      {/* ── Right Panel ── */}
-      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-[#ddeeff] via-[#c8e2ff] to-[#b8d4f5] relative overflow-hidden items-center justify-center">
+      {/* ── Right Panel (branding) — stacked on top for mobile, side panel from lg up ── */}
+      <div className="order-1 lg:order-2 flex flex-1 lg:min-h-screen bg-gradient-to-br from-[#ddeeff] via-[#c8e2ff] to-[#b8d4f5] relative overflow-hidden items-center justify-center py-10 px-6 lg:py-0">
         {/* Background circles */}
-        <div className="absolute top-[-80px] right-[-80px] w-[400px] h-[400px] rounded-full bg-blue-200/40" />
-        <div className="absolute bottom-[-60px] left-[-60px] w-[300px] h-[300px] rounded-full bg-blue-300/30" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-white/10" />
+        <div className="absolute top-[-60px] right-[-60px] w-[220px] h-[220px] lg:w-[400px] lg:h-[400px] lg:top-[-80px] lg:right-[-80px] rounded-full bg-blue-200/40" />
+        <div className="absolute bottom-[-40px] left-[-40px] w-[160px] h-[160px] lg:w-[300px] lg:h-[300px] lg:bottom-[-60px] lg:left-[-60px] rounded-full bg-blue-300/30" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] lg:w-[600px] lg:h-[600px] rounded-full bg-white/10" />
 
-        {/* Safe/Vault Illustration */}
+        {/* Yayasan Logos */}
         <div className="relative z-10 flex flex-col items-center">
-          <div className="relative">
-            {/* Safe body */}
-            <div className="w-52 h-52 bg-gradient-to-br from-blue-400 to-blue-600 rounded-3xl shadow-2xl flex items-center justify-center relative"
-              style={{ transform: 'perspective(600px) rotateY(-12deg) rotateX(8deg)' }}>
-
-              {/* Safe door details */}
-              <div className="absolute inset-4 border-2 border-blue-300/40 rounded-2xl" />
-
-              {/* Lock dial */}
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-200 to-blue-300 rounded-full shadow-inner flex items-center justify-center border-4 border-blue-200/60">
-                <div className="w-12 h-12 bg-gradient-to-br from-slate-100 to-slate-200 rounded-full shadow flex items-center justify-center">
-                  {/* Dial marks */}
-                  <div className="relative w-8 h-8">
-                    {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
-                      <div key={deg} className="absolute w-0.5 h-2 bg-slate-400 rounded-full"
-                        style={{ top: '50%', left: '50%', transformOrigin: '0 14px',
-                          transform: `translateX(-50%) rotate(${deg}deg)` }} />
-                    ))}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-2 h-2 bg-slate-500 rounded-full" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Handle */}
-              <div className="absolute right-5 top-1/2 -translate-y-1/2 w-3 h-10 bg-blue-200 rounded-full shadow" />
-
-              {/* Hinges */}
-              <div className="absolute left-4 top-8 w-3 h-5 bg-blue-300/60 rounded-sm" />
-              <div className="absolute left-4 bottom-8 w-3 h-5 bg-blue-300/60 rounded-sm" />
-            </div>
-
-            {/* Shadow */}
-            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-40 h-6 bg-blue-900/15 rounded-full blur-xl" />
+          <div className="flex flex-col items-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/assets/logo-img/logo yaspida smi.png"
+              alt="Logo Yaspida"
+              className="w-28 h-28 sm:w-36 sm:h-36 lg:w-44 lg:h-44 object-contain drop-shadow-2xl"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/assets/logo-img/kampus prestasi 02.png"
+              alt="Logo Kampus Prestasi"
+              className="w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80 object-contain drop-shadow-xl -mt-8 lg:-mt-14"
+            />
           </div>
 
           {/* Text below illustration */}
-          <div className="mt-12 text-center">
-            <h2 className="text-2xl font-bold text-blue-900 mb-2">Keuangan Transparan</h2>
+          <div className="mt-2 lg:mt-4 text-center">
+            <h2 className="text-xl lg:text-2xl font-bold text-blue-900 mb-2">Sistem Keuangan SIKAYA</h2>
             <p className="text-sm text-blue-700/70 max-w-xs leading-relaxed">
               Sistem pengelolaan anggaran Yayasan Yaspida yang aman, transparan, dan mudah digunakan.
             </p>
@@ -209,7 +187,7 @@ export default function LoginPage() {
 
           {/* Feature pills */}
           <div className="flex flex-wrap gap-2 mt-6 justify-center max-w-xs">
-            {['Pengajuan Digital', 'Approval Cepat', 'Laporan Real-time', 'Aman & Terenkripsi'].map((f) => (
+            {['Pengajuan Online', 'Persetujuan Cepat', 'Laporan Real-time', 'Aman & Terenkripsi'].map((f) => (
               <span key={f} className="px-3 py-1.5 bg-white/60 backdrop-blur-sm text-blue-800 text-xs font-medium rounded-full border border-white/80 shadow-sm">
                 {f}
               </span>

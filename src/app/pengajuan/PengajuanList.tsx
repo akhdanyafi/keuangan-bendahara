@@ -96,7 +96,7 @@ function FormModal({ onClose, onSuccess }: {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-start justify-between px-6 py-5 bg-blue-600 rounded-t-2xl shrink-0">
+        <div className="flex items-start justify-between gap-3 px-4 sm:px-6 py-5 bg-blue-600 rounded-t-2xl shrink-0">
           <div>
             <h2 className="text-lg font-bold text-white">Buat Pengajuan Baru</h2>
             <p className="text-blue-200 text-xs mt-0.5">Isi form berikut dengan lengkap dan jujur</p>
@@ -108,7 +108,7 @@ function FormModal({ onClose, onSuccess }: {
 
         {/* Body */}
         <div className="overflow-y-auto flex-1">
-          <form id="form-pengajuan" onSubmit={(e) => handleSubmit(e, 'submit')} className="p-6 space-y-4">
+          <form id="form-pengajuan" onSubmit={(e) => handleSubmit(e, 'submit')} className="p-4 sm:p-6 space-y-4">
             {error && <div className="px-4 py-3 bg-red-50 border border-red-100 rounded-lg text-red-600 text-sm">{error}</div>}
 
             <div>
@@ -123,17 +123,18 @@ function FormModal({ onClose, onSuccess }: {
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">DAFTAR BARANG *</label>
               <div className="space-y-2">
+                {/* Di mobile nama barang mengambil satu baris penuh, qty/harga/hapus turun ke baris kedua */}
                 {items.map((it, i) => (
-                  <div key={i} className="flex items-start gap-2">
+                  <div key={i} className="flex flex-wrap items-start gap-2">
                     <input value={it.nama_barang} onChange={(e) => updateItem(i, 'nama_barang', e.target.value)}
                       placeholder="Contoh: Proyektor Epson EB-E20"
-                      className="flex-1 min-w-0 px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      className="w-full sm:flex-1 sm:w-auto min-w-0 px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                     <input value={it.quantity} onChange={(e) => updateItem(i, 'quantity', e.target.value)}
                       type="number" min="1" placeholder="Qty" title="Jumlah"
-                      className="w-16 px-2 py-2.5 border border-slate-200 rounded-xl text-sm text-center focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      className="w-16 shrink-0 px-2 py-2.5 border border-slate-200 rounded-xl text-sm text-center focus:outline-none focus:ring-2 focus:ring-blue-500" />
                     <CurrencyInput value={it.estimasi_harga} onValueChange={(raw) => updateItem(i, 'estimasi_harga', raw)}
                       placeholder="Rp"
-                      className="w-32 px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      className="flex-1 min-w-0 sm:flex-none sm:w-32 px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
                     <button type="button" onClick={() => removeItem(i)} disabled={items.length === 1}
                       className="shrink-0 w-9 h-[42px] flex items-center justify-center text-red-400 hover:text-red-600 hover:bg-red-50 rounded-xl disabled:opacity-30 disabled:hover:bg-transparent transition-colors">
                       <Trash2 size={14} />
@@ -177,13 +178,13 @@ function FormModal({ onClose, onSuccess }: {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-slate-100 flex gap-3 shrink-0">
+        <div className="px-4 sm:px-6 py-4 border-t border-slate-100 flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 shrink-0">
           <button type="button" disabled={loading}
             onClick={() => {
               const form = document.getElementById('form-pengajuan') as HTMLFormElement
               handleSubmit({ currentTarget: form, preventDefault: () => {} } as React.FormEvent<HTMLFormElement>, 'draft')
             }}
-            className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium rounded-xl text-sm transition-colors disabled:opacity-50">
+            className="flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium rounded-xl text-sm transition-colors disabled:opacity-50">
             <Save size={14} /> Simpan sebagai Draft
           </button>
           <button type="submit" form="form-pengajuan" disabled={loading}
@@ -242,7 +243,7 @@ function DetailModal({ id, session, onClose, onRefresh }: {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0">
+        <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <span className="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-1 rounded">{pgId}</span>
             {data && <StatusBadge status={data.status as StatusPengajuan} />}
@@ -261,7 +262,7 @@ function DetailModal({ id, session, onClose, onRefresh }: {
         ) : (
           <>
             {/* Sub-header */}
-            <div className="px-6 py-3 border-b border-slate-100 shrink-0">
+            <div className="px-4 sm:px-6 py-3 border-b border-slate-100 shrink-0">
               <h2 className="font-bold text-slate-800 text-base">{data.nama_barang}</h2>
               <p className="text-xs text-slate-400 mt-0.5">{data.pengaju_nama} · <span className="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded text-[11px] font-medium">{data.kategori_nama}</span></p>
             </div>
@@ -277,7 +278,7 @@ function DetailModal({ id, session, onClose, onRefresh }: {
             </div>
 
             {/* Workflow stepper */}
-            <div className="px-6 py-4 border-b border-slate-100 shrink-0 overflow-x-auto">
+            <div className="px-4 sm:px-6 py-4 border-b border-slate-100 shrink-0 overflow-x-auto">
               <div className="flex items-center gap-0 min-w-max">
                 {WORKFLOW_STEPS.map((step, i) => {
                   const done = i < currentStep
@@ -309,20 +310,20 @@ function DetailModal({ id, session, onClose, onRefresh }: {
             </div>
 
             {/* Content */}
-            <div className="overflow-y-auto flex-1 px-6 py-4">
+            <div className="overflow-y-auto flex-1 px-4 sm:px-6 py-4">
               {error && <div className="mb-3 px-3 py-2.5 bg-red-50 border border-red-100 rounded-lg text-red-600 text-sm">{error}</div>}
 
               {activeTab === 'detail' && (
                 <div className="space-y-4">
                   {/* Info grid */}
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
                     <div><p className="text-xs text-slate-400 mb-0.5">TANGGAL PENGAJUAN</p><p className="font-medium text-slate-700">{formatDate(data.tanggal_pengajuan)}</p></div>
                     <div><p className="text-xs text-slate-400 mb-0.5">DIAJUKAN OLEH</p><p className="font-medium text-slate-700">{data.pengaju_nama}</p></div>
                     <div><p className="text-xs text-slate-400 mb-0.5">VENDOR / TOKO</p><p className="text-slate-700">{data.vendor || '—'}</p></div>
                     <div><p className="text-xs text-slate-400 mb-0.5">JUMLAH BARANG</p><p className="text-slate-700">{data.items?.length ?? 1} jenis</p></div>
-                    <div className="col-span-2"><p className="text-xs text-slate-400 mb-0.5">ALASAN PEMBELIAN</p><p className="text-slate-700">{data.alasan}</p></div>
+                    <div className="sm:col-span-2"><p className="text-xs text-slate-400 mb-0.5">ALASAN PEMBELIAN</p><p className="text-slate-700">{data.alasan}</p></div>
                     {data.lampiran_penawaran && (
-                      <div className="col-span-2"><p className="text-xs text-slate-400 mb-0.5">LAMPIRAN</p>
+                      <div className="sm:col-span-2"><p className="text-xs text-slate-400 mb-0.5">LAMPIRAN</p>
                         <a href={data.lampiran_penawaran} target="_blank" className="text-blue-600 hover:underline text-sm font-medium">Lihat Lampiran →</a>
                       </div>
                     )}
@@ -576,7 +577,7 @@ export default function PengajuanList({ session }: { session: SessionPayload }) 
       <div className="space-y-4">
         {/* Toolbar */}
         <div className="flex flex-wrap items-center gap-3">
-          <div className="relative flex-1 min-w-[180px] max-w-sm">
+          <div className="relative w-full sm:flex-1 sm:w-auto sm:min-w-[180px] sm:max-w-sm">
             <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Cari disini.."
               className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
@@ -590,7 +591,7 @@ export default function PengajuanList({ session }: { session: SessionPayload }) 
           </div>
           {SUBMITTER_ROLES.includes(session.role) && (
             <button onClick={() => setShowForm(true)}
-              className="ml-auto flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+              className="w-full sm:w-auto sm:ml-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
               <Plus size={16} /> Buat Pengajuan
             </button>
           )}
@@ -617,44 +618,44 @@ export default function PengajuanList({ session }: { session: SessionPayload }) 
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-slate-100 bg-slate-50">
-                    <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500">Nama Barang</th>
-                    <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden sm:table-cell">Kategori</th>
-                    {!SUBMITTER_ROLES.includes(session.role) && <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden md:table-cell">Pengaju</th>}
-                    <th className="px-5 py-3 text-center text-xs font-semibold text-slate-500 hidden sm:table-cell">Qty</th>
-                    <th className="px-5 py-3 text-right text-xs font-semibold text-slate-500">Estimasi</th>
-                    <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden md:table-cell">Tgl Pengajuan</th>
-                    <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500">Status</th>
-                    {!SUBMITTER_ROLES.includes(session.role) && <th className="px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden lg:table-cell">Disetujui Oleh</th>}
-                    <th className="px-5 py-3" />
+                    <th className="px-3 sm:px-5 py-3 text-left text-xs font-semibold text-slate-500">Nama Barang</th>
+                    <th className="px-3 sm:px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden sm:table-cell">Kategori</th>
+                    {!SUBMITTER_ROLES.includes(session.role) && <th className="px-3 sm:px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden md:table-cell">Pengaju</th>}
+                    <th className="px-3 sm:px-5 py-3 text-center text-xs font-semibold text-slate-500 hidden sm:table-cell">Qty</th>
+                    <th className="px-3 sm:px-5 py-3 text-right text-xs font-semibold text-slate-500">Estimasi</th>
+                    <th className="px-3 sm:px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden md:table-cell">Tgl Pengajuan</th>
+                    <th className="px-3 sm:px-5 py-3 text-left text-xs font-semibold text-slate-500">Status</th>
+                    {!SUBMITTER_ROLES.includes(session.role) && <th className="px-3 sm:px-5 py-3 text-left text-xs font-semibold text-slate-500 hidden lg:table-cell">Disetujui Oleh</th>}
+                    <th className="px-3 sm:px-5 py-3" />
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
                   {filtered.map((p) => (
                     <tr key={p.id} className="hover:bg-slate-50/80 transition-colors">
-                      <td className="px-5 py-3.5">
+                      <td className="px-3 sm:px-5 py-3.5">
                         <span className="text-sm font-medium text-slate-700">{p.nama_barang}</span>
                         <p className="text-xs text-slate-400 sm:hidden mt-0.5">{p.kategori_nama}</p>
                       </td>
-                      <td className="px-5 py-3.5 text-sm text-slate-500 hidden sm:table-cell">{p.kategori_nama}</td>
-                      {!SUBMITTER_ROLES.includes(session.role) && <td className="px-5 py-3.5 text-sm text-slate-500 hidden md:table-cell">{p.pengaju_nama}</td>}
-                      <td className="px-5 py-3.5 text-sm text-center text-slate-500 hidden sm:table-cell">{p.quantity ?? 1}</td>
-                      <td className="px-5 py-3.5 text-sm text-right font-medium text-slate-700">{formatRupiah(p.estimasi_harga)}</td>
-                      <td className="px-5 py-3.5 text-sm text-slate-500 hidden md:table-cell">
+                      <td className="px-3 sm:px-5 py-3.5 text-sm text-slate-500 hidden sm:table-cell">{p.kategori_nama}</td>
+                      {!SUBMITTER_ROLES.includes(session.role) && <td className="px-3 sm:px-5 py-3.5 text-sm text-slate-500 hidden md:table-cell">{p.pengaju_nama}</td>}
+                      <td className="px-3 sm:px-5 py-3.5 text-sm text-center text-slate-500 hidden sm:table-cell">{p.quantity ?? 1}</td>
+                      <td className="px-3 sm:px-5 py-3.5 text-sm text-right font-medium text-slate-700">{formatRupiah(p.estimasi_harga)}</td>
+                      <td className="px-3 sm:px-5 py-3.5 text-sm text-slate-500 hidden md:table-cell">
                         {formatDate(p.tanggal_pengajuan)}
                         {p.status === 'pending_approval' && (
                           <p className="text-xs text-orange-500 font-medium mt-0.5">{daysPending(p.tanggal_pengajuan)} hari menunggu</p>
                         )}
                       </td>
-                      <td className="px-5 py-3.5"><StatusBadge status={p.status as StatusPengajuan} /></td>
+                      <td className="px-3 sm:px-5 py-3.5"><StatusBadge status={p.status as StatusPengajuan} /></td>
                       {!SUBMITTER_ROLES.includes(session.role) && (
-                        <td className="px-5 py-3.5 hidden lg:table-cell">
+                        <td className="px-3 sm:px-5 py-3.5 hidden lg:table-cell">
                           {p.approved_by_nama
                             ? <span className="text-xs text-green-600 font-medium">{p.approved_by_nama}</span>
                             : <span className="text-xs text-slate-300">—</span>
                           }
                         </td>
                       )}
-                      <td className="px-5 py-3.5">
+                      <td className="px-3 sm:px-5 py-3.5">
                         <div className="flex items-center gap-2">
                           <button onClick={() => setSelectedId(p.id)} className="text-sm font-medium text-blue-600 hover:text-blue-800 whitespace-nowrap">
                             Detail →

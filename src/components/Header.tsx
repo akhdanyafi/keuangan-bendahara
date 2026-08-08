@@ -39,15 +39,15 @@ export default function Header({ title, role, nama }: Props) {
 
   return (
     <header className="bg-white border-b border-slate-200 px-4 lg:px-6 h-14 flex items-center justify-between shrink-0 pl-14 lg:pl-6">
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm">
-        <span className="text-slate-400">Yayasan Yaspida</span>
-        <ChevronRight size={14} className="text-slate-300" />
-        <span className="font-semibold text-slate-700">{title}</span>
+      {/* Breadcrumb — induk disembunyikan di mobile supaya judul tidak pecah 2 baris */}
+      <div className="flex items-center gap-2 text-sm min-w-0">
+        <span className="hidden sm:inline text-slate-400 shrink-0">Yayasan Yaspida</span>
+        <ChevronRight size={14} className="hidden sm:inline text-slate-300 shrink-0" />
+        <span className="font-semibold text-slate-700 truncate">{title}</span>
       </div>
 
       {/* Right side */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
         {/* Notifikasi */}
         <div className="relative">
           <button
@@ -63,7 +63,7 @@ export default function Header({ title, role, nama }: Props) {
           </button>
 
           {open && (
-            <div className="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-xl shadow-xl z-50 overflow-hidden">
+            <div className="absolute right-0 mt-2 w-[calc(100vw-2rem)] max-w-xs sm:w-80 sm:max-w-none bg-white border border-slate-200 rounded-xl shadow-xl z-50 overflow-hidden">
               <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
                 <span className="text-sm font-semibold text-slate-700">Notifikasi</span>
                 {unread === 0 && <span className="text-xs text-slate-400">Semua dibaca</span>}
@@ -90,12 +90,12 @@ export default function Header({ title, role, nama }: Props) {
           )}
         </div>
 
-        {/* User */}
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold text-white">
+        {/* User — label role disembunyikan di mobile, avatar tetap tampil */}
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0">
             {initials}
           </div>
-          <span className="text-sm font-medium text-slate-700">{ROLE_LABEL[role]}</span>
+          <span className="hidden md:inline text-sm font-medium text-slate-700 truncate">{ROLE_LABEL[role]}</span>
         </div>
       </div>
     </header>

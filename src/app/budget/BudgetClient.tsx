@@ -77,7 +77,7 @@ export default function BudgetClient({ session }: { session: SessionPayload }) {
         </div>
 
         {/* Summary cards */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { label: 'Total Anggaran', value: formatRupiah(totalBudget), color: 'text-slate-800', bg: 'bg-white' },
             { label: 'Terpakai', value: formatRupiah(totalTerpakai), color: 'text-blue-600', bg: 'bg-white' },

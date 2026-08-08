@@ -104,7 +104,7 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
             <StatusBadge status={data.status as StatusPengajuan} />
           </div>
 
-          <div className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
             <div>
               <p className="text-xs text-slate-400 mb-0.5">Pengaju</p>
               <p className="font-medium text-slate-700">{data.pengaju_nama}</p>
@@ -126,12 +126,12 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
               <p className="text-xs text-slate-400 mb-0.5">Vendor / Toko</p>
               <p className="text-slate-700">{data.vendor || '-'}</p>
             </div>
-            <div className="col-span-2">
+            <div className="sm:col-span-2">
               <p className="text-xs text-slate-400 mb-0.5">Alasan</p>
               <p className="text-slate-700">{data.alasan}</p>
             </div>
             {data.lampiran_penawaran && (
-              <div className="col-span-2">
+              <div className="sm:col-span-2">
                 <p className="text-xs text-slate-400 mb-0.5">Lampiran</p>
                 <a href={data.lampiran_penawaran} target="_blank" className="text-blue-600 hover:underline text-sm font-medium">Lihat Lampiran →</a>
               </div>
