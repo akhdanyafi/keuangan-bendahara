@@ -47,7 +47,7 @@ function ApprovalDetailModal({ id, session, onClose, onRefresh }: {
 
         {loading ? (
           <div className="flex items-center justify-center h-48">
-            <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : !data ? null : (
           <div className="overflow-y-auto flex-1 p-4 sm:p-6 space-y-4">
@@ -100,9 +100,9 @@ function ApprovalDetailModal({ id, session, onClose, onRefresh }: {
               </div>
             )}
 
-            <div className="bg-blue-50 rounded-xl p-4">
-              <p className="text-xs text-blue-400 font-semibold mb-1">Total Estimasi Biaya</p>
-              <p className="text-xl font-bold text-blue-600">{formatRupiah(data.estimasi_harga)}</p>
+            <div className="bg-green-50 rounded-xl p-4">
+              <p className="text-xs text-green-400 font-semibold mb-1">Total Estimasi Biaya</p>
+              <p className="text-xl font-bold text-green-600">{formatRupiah(data.estimasi_harga)}</p>
             </div>
 
             {data.status === 'pending_approval' && (
@@ -173,7 +173,7 @@ export default function ApprovalClient({ session }: { session: SessionPayload })
         <div className="flex gap-2">
           {(['pending_approval', ''] as const).map((t) => (
             <button key={String(t)} onClick={() => setTab(t)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${tab === t ? 'bg-blue-600 text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${tab === t ? 'bg-green-600 text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'}`}>
               {t === 'pending_approval' ? <><Clock size={14} /> Menunggu</> : <><CheckSquare size={14} /> Riwayat</>}
             </button>
           ))}
@@ -181,7 +181,7 @@ export default function ApprovalClient({ session }: { session: SessionPayload })
 
         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
           {loading ? (
-            <div className="flex items-center justify-center h-48"><div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" /></div>
+            <div className="flex items-center justify-center h-48"><div className="w-6 h-6 border-2 border-green-600 border-t-transparent rounded-full animate-spin" /></div>
           ) : data.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-48 text-slate-300">
               <CheckSquare size={32} className="mb-2" />
@@ -217,7 +217,7 @@ export default function ApprovalClient({ session }: { session: SessionPayload })
                         )}
                       </td>
                       <td className="px-3 sm:px-5 py-3.5">
-                        <button onClick={() => setSelectedId(p.id)} className="text-sm font-medium text-blue-600 hover:text-blue-800 whitespace-nowrap">
+                        <button onClick={() => setSelectedId(p.id)} className="text-sm font-medium text-green-600 hover:text-green-800 whitespace-nowrap">
                           Review →
                         </button>
                       </td>

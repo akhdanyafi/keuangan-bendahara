@@ -78,7 +78,7 @@ export default function Header({ title, role, nama }: Props) {
                   {notifList.map((n) => (
                     <li
                       key={n.id}
-                      className={`px-4 py-3 text-sm ${!n.dibaca ? 'bg-blue-50' : ''}`}
+                      className={`px-4 py-3 text-sm ${!n.dibaca ? 'bg-green-50' : ''}`}
                     >
                       <p className="text-xs text-slate-400 mb-0.5 font-medium">{n.nama_barang}</p>
                       <p className={!n.dibaca ? 'text-slate-700 font-medium' : 'text-slate-500'}>{n.pesan}</p>
@@ -92,7 +92,7 @@ export default function Header({ title, role, nama }: Props) {
 
         {/* User — label role disembunyikan di mobile, avatar tetap tampil */}
         <div className="flex items-center gap-2 min-w-0">
-          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0">
+          <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0">
             {initials}
           </div>
           <span className="hidden md:inline text-sm font-medium text-slate-700 truncate">{ROLE_LABEL[role]}</span>

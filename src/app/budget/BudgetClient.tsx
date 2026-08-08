@@ -71,7 +71,7 @@ export default function BudgetClient({ session }: { session: SessionPayload }) {
         <div className="flex items-center gap-3">
           <label className="text-sm font-medium text-slate-600">Tahun Anggaran:</label>
           <select value={tahun} onChange={(e) => setTahun(e.target.value)}
-            className="text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+            className="text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 bg-white">
             {tahunOptions.map((y) => <option key={y} value={y}>{y}</option>)}
           </select>
         </div>
@@ -80,7 +80,7 @@ export default function BudgetClient({ session }: { session: SessionPayload }) {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { label: 'Total Anggaran', value: formatRupiah(totalBudget), color: 'text-slate-800', bg: 'bg-white' },
-            { label: 'Terpakai', value: formatRupiah(totalTerpakai), color: 'text-blue-600', bg: 'bg-white' },
+            { label: 'Terpakai', value: formatRupiah(totalTerpakai), color: 'text-green-600', bg: 'bg-white' },
             { label: 'Sisa', value: formatRupiah(totalBudget - totalTerpakai), color: totalBudget - totalTerpakai < 0 ? 'text-red-600' : 'text-green-600', bg: 'bg-white' },
           ].map((c) => (
             <div key={c.label} className={`${c.bg} rounded-xl border border-slate-200 p-5`}>
@@ -93,14 +93,14 @@ export default function BudgetClient({ session }: { session: SessionPayload }) {
         {/* Grid per Kategori */}
         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
           <div className="px-5 py-4 border-b border-slate-100 flex items-center gap-2">
-            <Wallet size={16} className="text-blue-600" />
+            <Wallet size={16} className="text-green-600" />
             <h3 className="text-sm font-semibold text-slate-700">Anggaran per Kategori — {tahun}</h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-0 divide-y divide-slate-50 md:divide-y-0">
             {data.map((row, idx) => {
               const persen = row.budget > 0 ? Math.min(100, Math.round((Number(row.terpakai) / Number(row.budget)) * 100)) : 0
-              const barColor = persen >= 90 ? 'bg-red-500' : persen >= 70 ? 'bg-amber-500' : 'bg-blue-500'
+              const barColor = persen >= 90 ? 'bg-red-500' : persen >= 70 ? 'bg-amber-500' : 'bg-green-500'
               const sisa = Number(row.budget || 0) - Number(row.terpakai || 0)
               const borderClass = idx % 3 !== 2 ? 'xl:border-r xl:border-slate-100' : ''
               const borderMd = idx % 2 !== 1 ? 'md:border-r md:border-slate-100' : ''
@@ -127,13 +127,13 @@ export default function BudgetClient({ session }: { session: SessionPayload }) {
                       <CurrencyInput
                         value={editMap[row.id] || ''}
                         onValueChange={(raw) => setEditMap(m => ({ ...m, [row.id]: raw }))}
-                        className="w-full pl-8 pr-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full pl-8 pr-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                       />
                     </div>
                     <button
                       onClick={() => handleSave(row.id)}
                       disabled={saving === row.id}
-                      className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-2 rounded-lg transition-colors disabled:opacity-50 shrink-0"
+                      className="flex items-center gap-1.5 bg-green-600 hover:bg-green-700 text-white text-xs font-semibold px-3 py-2 rounded-lg transition-colors disabled:opacity-50 shrink-0"
                     >
                       <Save size={13} /> {saving === row.id ? '...' : 'Simpan'}
                     </button>

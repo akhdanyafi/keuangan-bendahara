@@ -30,7 +30,7 @@ export default function Logo({ size = 36, className = '' }: Props) {
 
   return (
     <div
-      className={`bg-blue-600 rounded-lg flex items-center justify-center shrink-0 ${className}`}
+      className={`bg-green-600 rounded-lg flex items-center justify-center shrink-0 ${className}`}
       style={{ width: size, height: size }}
     >
       <Landmark size={Math.round(size * 0.5)} className="text-white" />

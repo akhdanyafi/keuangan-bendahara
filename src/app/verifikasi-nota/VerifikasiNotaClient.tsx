@@ -49,7 +49,7 @@ export default function VerifikasiNotaClient({ session }: { session: SessionPayl
 
         {loading ? (
           <div className="bg-white rounded-xl border border-slate-200 flex items-center justify-center h-48">
-            <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : data.length === 0 ? (
           <div className="bg-white rounded-xl border border-slate-200 flex flex-col items-center justify-center h-48 text-slate-300">
@@ -69,7 +69,7 @@ export default function VerifikasiNotaClient({ session }: { session: SessionPayl
                     <p className="text-xs text-slate-400">{p.pengaju_nama} &middot; {p.kategori_nama}</p>
                   </div>
                   <button onClick={() => router.push(`/pengajuan/${p.id}`)}
-                    className="flex items-center gap-1 text-xs text-blue-600 hover:underline shrink-0">
+                    className="flex items-center gap-1 text-xs text-green-600 hover:underline shrink-0">
                     Detail <ExternalLink size={11} />
                   </button>
                 </div>
@@ -85,7 +85,7 @@ export default function VerifikasiNotaClient({ session }: { session: SessionPayl
                   </div>
                   <div>
                     <p className="text-xs text-slate-400 mb-0.5">Realisasi</p>
-                    <p className="font-bold text-blue-600">{formatRupiah(p.nominal_aktual)}</p>
+                    <p className="font-bold text-green-600">{formatRupiah(p.nominal_aktual)}</p>
                   </div>
                   <div>
                     <p className="text-xs text-slate-400 mb-0.5">Selisih</p>

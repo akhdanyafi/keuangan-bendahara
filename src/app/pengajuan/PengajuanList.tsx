@@ -96,10 +96,10 @@ function FormModal({ onClose, onSuccess }: {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-start justify-between gap-3 px-4 sm:px-6 py-5 bg-blue-600 rounded-t-2xl shrink-0">
+        <div className="flex items-start justify-between gap-3 px-4 sm:px-6 py-5 bg-green-600 rounded-t-2xl shrink-0">
           <div>
             <h2 className="text-lg font-bold text-white">Buat Pengajuan Baru</h2>
-            <p className="text-blue-200 text-xs mt-0.5">Isi form berikut dengan lengkap dan jujur</p>
+            <p className="text-green-200 text-xs mt-0.5">Isi form berikut dengan lengkap dan jujur</p>
           </div>
           <button onClick={onClose} className="text-white/70 hover:text-white transition-colors mt-0.5">
             <X size={20} />
@@ -114,7 +114,7 @@ function FormModal({ onClose, onSuccess }: {
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">KATEGORI *</label>
               <select name="kategori_id" required
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                 <option value="">-- Pilih --</option>
                 {kategoriList.map((k) => <option key={k.id} value={k.id}>{k.nama}</option>)}
               </select>
@@ -128,13 +128,13 @@ function FormModal({ onClose, onSuccess }: {
                   <div key={i} className="flex flex-wrap items-start gap-2">
                     <input value={it.nama_barang} onChange={(e) => updateItem(i, 'nama_barang', e.target.value)}
                       placeholder="Contoh: Proyektor Epson EB-E20"
-                      className="w-full sm:flex-1 sm:w-auto min-w-0 px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      className="w-full sm:flex-1 sm:w-auto min-w-0 px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                     <input value={it.quantity} onChange={(e) => updateItem(i, 'quantity', e.target.value)}
                       type="number" min="1" placeholder="Qty" title="Jumlah"
-                      className="w-16 shrink-0 px-2 py-2.5 border border-slate-200 rounded-xl text-sm text-center focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      className="w-16 shrink-0 px-2 py-2.5 border border-slate-200 rounded-xl text-sm text-center focus:outline-none focus:ring-2 focus:ring-green-500" />
                     <CurrencyInput value={it.estimasi_harga} onValueChange={(raw) => updateItem(i, 'estimasi_harga', raw)}
                       placeholder="Rp"
-                      className="flex-1 min-w-0 sm:flex-none sm:w-32 px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                      className="flex-1 min-w-0 sm:flex-none sm:w-32 px-3 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                     <button type="button" onClick={() => removeItem(i)} disabled={items.length === 1}
                       className="shrink-0 w-9 h-[42px] flex items-center justify-center text-red-400 hover:text-red-600 hover:bg-red-50 rounded-xl disabled:opacity-30 disabled:hover:bg-transparent transition-colors">
                       <Trash2 size={14} />
@@ -143,7 +143,7 @@ function FormModal({ onClose, onSuccess }: {
                 ))}
               </div>
               <button type="button" onClick={addItem}
-                className="mt-2 flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-800 font-medium">
+                className="mt-2 flex items-center gap-1.5 text-sm text-green-600 hover:text-green-800 font-medium">
                 <Plus size={14} /> Tambah Barang
               </button>
               {totalEstimasi > 0 && (
@@ -157,18 +157,18 @@ function FormModal({ onClose, onSuccess }: {
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">ALASAN PEMBELIAN *</label>
               <textarea name="alasan" required rows={3}
                 placeholder="Jelaskan kebutuhan, kondisi saat ini, dan urgensi pembelian..."
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none" />
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">VENDOR / TOKO (OPSIONAL)</label>
               <input name="vendor" placeholder="Contoh: Toko Elektronik Maju"
-                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-slate-600 mb-1.5">LAMPIRAN PENAWARAN (OPSIONAL)</label>
-              <label className="flex items-center gap-2 px-3.5 py-2.5 border border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-colors">
+              <label className="flex items-center gap-2 px-3.5 py-2.5 border border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
                 <Upload size={14} className="text-slate-400" />
                 <span className="text-sm text-slate-400">Lampirkan file penawaran harga (PDF/gambar)</span>
                 <input name="lampiran_penawaran" type="file" accept=".pdf,.jpg,.jpeg,.png" className="hidden" />
@@ -188,7 +188,7 @@ function FormModal({ onClose, onSuccess }: {
             <Save size={14} /> Simpan sebagai Draft
           </button>
           <button type="submit" form="form-pengajuan" disabled={loading}
-            className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl text-sm transition-colors disabled:opacity-50">
+            className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 rounded-xl text-sm transition-colors disabled:opacity-50">
             <Send size={14} /> {loading ? 'Memproses...' : 'Submit Sekarang'}
           </button>
         </div>
@@ -255,7 +255,7 @@ function DetailModal({ id, session, onClose, onRefresh }: {
 
         {loading ? (
           <div className="flex items-center justify-center h-48">
-            <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <div className="w-6 h-6 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : !data ? (
           <div className="p-8 text-center text-slate-400 text-sm">Data tidak ditemukan</div>
@@ -271,7 +271,7 @@ function DetailModal({ id, session, onClose, onRefresh }: {
             <div className="flex gap-1 px-6 pt-3 pb-0 border-b border-slate-100 shrink-0">
               {(['detail', 'riwayat'] as const).map((tab) => (
                 <button key={tab} onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors capitalize ${activeTab === tab ? 'text-blue-600 border-b-2 border-blue-600 -mb-px' : 'text-slate-400 hover:text-slate-600'}`}>
+                  className={`px-4 py-2 text-sm font-medium rounded-t-lg transition-colors capitalize ${activeTab === tab ? 'text-green-600 border-b-2 border-green-600 -mb-px' : 'text-slate-400 hover:text-slate-600'}`}>
                   {tab === 'detail' ? 'Detail & Aksi' : 'Riwayat'}
                 </button>
               ))}
@@ -289,19 +289,19 @@ function DetailModal({ id, session, onClose, onRefresh }: {
                       <div className="flex flex-col items-center gap-1">
                         <div className={`w-7 h-7 rounded-full flex items-center justify-center border-2 transition-all ${
                           isRejected ? 'bg-red-500 border-red-500'
-                            : done ? 'bg-blue-600 border-blue-600'
-                            : active ? 'bg-white border-blue-600'
+                            : done ? 'bg-green-600 border-green-600'
+                            : active ? 'bg-white border-green-600'
                             : 'bg-white border-slate-200'
                         }`}>
                           {(done || isRejected) && <div className="w-2 h-2 bg-white rounded-full" />}
-                          {active && !isRejected && <div className="w-2 h-2 bg-blue-600 rounded-full" />}
+                          {active && !isRejected && <div className="w-2 h-2 bg-green-600 rounded-full" />}
                         </div>
                         <span className={`text-[10px] font-medium whitespace-nowrap ${
-                          isRejected ? 'text-red-500' : done || active ? 'text-blue-600' : 'text-slate-300'
+                          isRejected ? 'text-red-500' : done || active ? 'text-green-600' : 'text-slate-300'
                         }`}>{step.label}</span>
                       </div>
                       {i < WORKFLOW_STEPS.length - 1 && (
-                        <div className={`w-10 h-px mb-4 ${done ? 'bg-blue-600' : 'bg-slate-200'}`} />
+                        <div className={`w-10 h-px mb-4 ${done ? 'bg-green-600' : 'bg-slate-200'}`} />
                       )}
                     </div>
                   )
@@ -324,7 +324,7 @@ function DetailModal({ id, session, onClose, onRefresh }: {
                     <div className="sm:col-span-2"><p className="text-xs text-slate-400 mb-0.5">ALASAN PEMBELIAN</p><p className="text-slate-700">{data.alasan}</p></div>
                     {data.lampiran_penawaran && (
                       <div className="sm:col-span-2"><p className="text-xs text-slate-400 mb-0.5">LAMPIRAN</p>
-                        <a href={data.lampiran_penawaran} target="_blank" className="text-blue-600 hover:underline text-sm font-medium">Lihat Lampiran →</a>
+                        <a href={data.lampiran_penawaran} target="_blank" className="text-green-600 hover:underline text-sm font-medium">Lihat Lampiran →</a>
                       </div>
                     )}
                   </div>
@@ -358,9 +358,9 @@ function DetailModal({ id, session, onClose, onRefresh }: {
 
                   {/* Cost cards */}
                   <div className="grid grid-cols-2 gap-4 mt-2">
-                    <div className="bg-blue-50 rounded-xl p-4">
-                      <p className="text-xs text-blue-400 font-semibold mb-1">Estimasi Biaya</p>
-                      <p className="text-xl font-bold text-blue-600">{formatRupiah(data.estimasi_harga)}</p>
+                    <div className="bg-green-50 rounded-xl p-4">
+                      <p className="text-xs text-green-400 font-semibold mb-1">Estimasi Biaya</p>
+                      <p className="text-xl font-bold text-green-600">{formatRupiah(data.estimasi_harga)}</p>
                     </div>
                     <div className="bg-slate-50 rounded-xl p-4">
                       <p className="text-xs text-slate-400 font-semibold mb-1">Realisasi Aktual</p>
@@ -423,7 +423,7 @@ function DetailModal({ id, session, onClose, onRefresh }: {
                     {/* Bendahara — Cairkan */}
                     {session.role === 'bendahara' && data.status === 'approved' && (
                       <button onClick={() => doAction(`/api/pengajuan/${id}/cairkan`)} disabled={actionLoading}
-                        className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl text-sm disabled:opacity-50">
+                        className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-xl text-sm disabled:opacity-50">
                         <Banknote size={16} /> Tandai Dana Dicairkan
                       </button>
                     )}
@@ -446,7 +446,7 @@ function DetailModal({ id, session, onClose, onRefresh }: {
                     {SUBMITTER_ROLES.includes(session.role) && data.status === 'menunggu_nota' && (
                       !showUploadNota ? (
                         <button onClick={() => setShowUploadNota(true)}
-                          className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl text-sm">
+                          className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-xl text-sm">
                           <Upload size={15} /> Upload Nota
                         </button>
                       ) : (
@@ -455,26 +455,26 @@ function DetailModal({ id, session, onClose, onRefresh }: {
                             <div>
                               <label className="block text-xs font-semibold text-slate-600 mb-1">Nominal Aktual *</label>
                               <CurrencyInput name="nominal_aktual" required
-                                className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                             </div>
                             <div>
                               <label className="block text-xs font-semibold text-slate-600 mb-1">Tanggal Beli *</label>
                               <input name="tanggal_pembelian" type="date" required
-                                className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                             </div>
                           </div>
                           <div>
                             <label className="block text-xs font-semibold text-slate-600 mb-1">Foto Nota *</label>
                             <input name="foto_nota" type="file" accept="image/*,.pdf" required
-                              className="w-full text-sm text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-600" />
+                              className="w-full text-sm text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-600" />
                           </div>
                           <textarea name="catatan_nota" rows={2} placeholder="Catatan (opsional)"
-                            className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                            className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-green-500" />
                           <div className="flex gap-2">
                             <button type="button" onClick={() => setShowUploadNota(false)}
                               className="flex-1 bg-slate-100 text-slate-700 py-2 rounded-xl text-sm font-medium">Batal</button>
                             <button type="submit" disabled={actionLoading}
-                              className="flex-1 flex items-center justify-center gap-2 bg-blue-600 text-white py-2 rounded-xl text-sm font-medium disabled:opacity-50">
+                              className="flex-1 flex items-center justify-center gap-2 bg-green-600 text-white py-2 rounded-xl text-sm font-medium disabled:opacity-50">
                               <Upload size={14} /> {actionLoading ? 'Upload...' : 'Upload Nota'}
                             </button>
                           </div>
@@ -493,7 +493,7 @@ function DetailModal({ id, session, onClose, onRefresh }: {
                           setActionLoading(false)
                           if (res?.ok) { fetchData(); onRefresh() }
                         }} disabled={actionLoading}
-                          className="flex-1 flex items-center justify-center gap-2 bg-blue-600 text-white font-medium py-2.5 rounded-xl text-sm disabled:opacity-50">
+                          className="flex-1 flex items-center justify-center gap-2 bg-green-600 text-white font-medium py-2.5 rounded-xl text-sm disabled:opacity-50">
                           <Send size={14} /> Submit Pengajuan
                         </button>
                       </div>
@@ -513,7 +513,7 @@ function DetailModal({ id, session, onClose, onRefresh }: {
                     { label: 'Selesai', time: data.selesai_at, show: !!data.selesai_at, sub: data.nota_verified_by_nama ? `diverifikasi oleh ${data.nota_verified_by_nama}` : '' },
                   ].filter((s) => s.show).map((s, i) => (
                     <li key={i} className="pl-5">
-                      <div className={`absolute -left-1 w-2.5 h-2.5 rounded-full border-2 border-white ${s.err ? 'bg-red-500' : 'bg-blue-600'}`} style={{ top: i * 56 + 4 }} />
+                      <div className={`absolute -left-1 w-2.5 h-2.5 rounded-full border-2 border-white ${s.err ? 'bg-red-500' : 'bg-green-600'}`} style={{ top: i * 56 + 4 }} />
                       <p className={`text-sm font-medium ${s.err ? 'text-red-600' : 'text-slate-700'}`}>{s.label}</p>
                       {s.time && <p className="text-xs text-slate-400 mt-0.5">{formatDateTime(s.time)}</p>}
                       {s.sub && <p className={`text-xs mt-0.5 ${s.err ? 'text-red-500' : 'text-slate-400'}`}>{s.sub}</p>}
@@ -580,18 +580,18 @@ export default function PengajuanList({ session }: { session: SessionPayload }) 
           <div className="relative w-full sm:flex-1 sm:w-auto sm:min-w-[180px] sm:max-w-sm">
             <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Cari disini.."
-              className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" />
           </div>
           <div className="flex items-center gap-2">
             <Filter size={15} className="text-slate-400" />
             <select value={status} onChange={(e) => setStatus(e.target.value)}
-              className="text-sm bg-white border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              className="text-sm bg-white border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
               {STATUS_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
             </select>
           </div>
           {SUBMITTER_ROLES.includes(session.role) && (
             <button onClick={() => setShowForm(true)}
-              className="w-full sm:w-auto sm:ml-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+              className="w-full sm:w-auto sm:ml-auto flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
               <Plus size={16} /> Buat Pengajuan
             </button>
           )}
@@ -601,14 +601,14 @@ export default function PengajuanList({ session }: { session: SessionPayload }) 
         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center h-48">
-              <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              <div className="w-6 h-6 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
             </div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-48 text-slate-300">
               <FileText size={32} className="mb-2" />
               <p className="text-sm text-slate-400">{search ? 'Tidak ada hasil pencarian' : 'Belum ada pengajuan'}</p>
               {SUBMITTER_ROLES.includes(session.role) && !search && (
-                <button onClick={() => setShowForm(true)} className="mt-3 text-sm text-blue-600 hover:underline font-medium">
+                <button onClick={() => setShowForm(true)} className="mt-3 text-sm text-green-600 hover:underline font-medium">
                   Buat pengajuan pertama
                 </button>
               )}
@@ -657,7 +657,7 @@ export default function PengajuanList({ session }: { session: SessionPayload }) 
                       )}
                       <td className="px-3 sm:px-5 py-3.5">
                         <div className="flex items-center gap-2">
-                          <button onClick={() => setSelectedId(p.id)} className="text-sm font-medium text-blue-600 hover:text-blue-800 whitespace-nowrap">
+                          <button onClick={() => setSelectedId(p.id)} className="text-sm font-medium text-green-600 hover:text-green-800 whitespace-nowrap">
                             Detail →
                           </button>
                           {(p.status === 'draft' || p.status === 'rejected') && (

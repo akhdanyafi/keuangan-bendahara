@@ -107,7 +107,7 @@ export default function KategoriClient({ session }: { session: SessionPayload })
 
         <div className="flex justify-end">
           <button onClick={openAdd}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
             <Plus size={16} /> Tambah Kategori
           </button>
         </div>
@@ -132,7 +132,7 @@ export default function KategoriClient({ session }: { session: SessionPayload })
                     required
                     autoFocus
                     placeholder="Contoh: Sarana Prasarana"
-                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                 </div>
                 <div className="flex gap-3 pt-1">
@@ -141,7 +141,7 @@ export default function KategoriClient({ session }: { session: SessionPayload })
                     Batal
                   </button>
                   <button type="submit" disabled={saving}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg text-sm font-medium disabled:opacity-50">
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-lg text-sm font-medium disabled:opacity-50">
                     {saving ? 'Menyimpan...' : editItem ? 'Simpan Perubahan' : 'Tambah'}
                   </button>
                 </div>
@@ -153,16 +153,16 @@ export default function KategoriClient({ session }: { session: SessionPayload })
         {/* Aktif */}
         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
           <div className="px-5 py-4 border-b border-slate-100 flex items-center gap-2">
-            <Tag size={15} className="text-blue-600" />
+            <Tag size={15} className="text-green-600" />
             <h3 className="text-sm font-semibold text-slate-700">Kategori Aktif</h3>
-            <span className="ml-2 text-xs font-medium bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">
+            <span className="ml-2 text-xs font-medium bg-green-100 text-green-600 px-2 py-0.5 rounded-full">
               {aktifList.length}
             </span>
           </div>
 
           {loading ? (
             <div className="flex items-center justify-center h-32">
-              <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              <div className="w-6 h-6 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
             </div>
           ) : aktifList.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-32 text-slate-300">
@@ -174,14 +174,14 @@ export default function KategoriClient({ session }: { session: SessionPayload })
               {aktifList.map((k) => (
                 <div key={k.id} className="flex items-center justify-between px-5 py-3.5 hover:bg-slate-50/80 transition-colors border-b border-slate-50">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
-                      <Tag size={14} className="text-blue-500" />
+                    <div className="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                      <Tag size={14} className="text-green-500" />
                     </div>
                     <span className="text-sm font-medium text-slate-700">{k.nama}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <button onClick={() => openEdit(k)}
-                      className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-800 px-2 py-1 rounded hover:bg-blue-50 transition-colors">
+                      className="flex items-center gap-1 text-xs font-medium text-green-600 hover:text-green-800 px-2 py-1 rounded hover:bg-green-50 transition-colors">
                       <Pencil size={12} /> Edit
                     </button>
                     <button onClick={() => handleToggleAktif(k)}

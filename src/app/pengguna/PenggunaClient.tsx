@@ -92,7 +92,7 @@ export default function PenggunaClient({ session }: { session: SessionPayload })
         )}
         <div className="flex justify-end">
           <button onClick={openAdd}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
+            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
             <UserPlus size={16} /> Tambah Pengguna
           </button>
         </div>
@@ -110,12 +110,12 @@ export default function PenggunaClient({ session }: { session: SessionPayload })
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Nama Lengkap *</label>
                   <input value={form.nama} onChange={(e) => setForm(f => ({...f, nama: e.target.value}))} required
-                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Email *</label>
                   <input type="email" value={form.email} onChange={(e) => setForm(f => ({...f, email: e.target.value}))} required
-                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">
@@ -123,12 +123,12 @@ export default function PenggunaClient({ session }: { session: SessionPayload })
                   </label>
                   <input type="password" value={form.password} onChange={(e) => setForm(f => ({...f, password: e.target.value}))}
                     required={!form.id} placeholder={form.id ? '••••••••' : ''}
-                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">Role *</label>
                   <select value={form.role} onChange={(e) => setForm(f => ({...f, role: e.target.value as Role}))}
-                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                     <option value="ketua_yayasan">Ketua Yayasan</option>
                     <option value="bendahara">Bendahara</option>
                     <option value="komponen_sekolah">Komponen Sekolah</option>
@@ -138,7 +138,7 @@ export default function PenggunaClient({ session }: { session: SessionPayload })
                 {form.id && (
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input type="checkbox" checked={form.aktif === 1} onChange={(e) => setForm(f => ({...f, aktif: e.target.checked ? 1 : 0}))}
-                      className="w-4 h-4 accent-blue-600 rounded" />
+                      className="w-4 h-4 accent-green-600 rounded" />
                     <span className="text-sm text-slate-700">Akun Aktif</span>
                   </label>
                 )}
@@ -146,7 +146,7 @@ export default function PenggunaClient({ session }: { session: SessionPayload })
                   <button type="button" onClick={() => setShowForm(false)}
                     className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2.5 rounded-lg text-sm font-medium">Batal</button>
                   <button type="submit" disabled={saving}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg text-sm font-medium disabled:opacity-50">
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-lg text-sm font-medium disabled:opacity-50">
                     {saving ? 'Menyimpan...' : 'Simpan'}
                   </button>
                 </div>
@@ -158,7 +158,7 @@ export default function PenggunaClient({ session }: { session: SessionPayload })
         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center h-48">
-              <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              <div className="w-6 h-6 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
             </div>
           ) : users.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-48 text-slate-300">
@@ -183,7 +183,7 @@ export default function PenggunaClient({ session }: { session: SessionPayload })
                   <tr key={u.id} className={`hover:bg-slate-50/80 transition-colors ${!u.aktif ? 'opacity-50' : ''}`}>
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0">
+                        <div className="w-7 h-7 bg-green-600 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0">
                           {u.nama.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}
                         </div>
                         <span className="text-sm font-medium text-slate-700">{u.nama}</span>
@@ -203,7 +203,7 @@ export default function PenggunaClient({ session }: { session: SessionPayload })
                     <td className="px-5 py-3.5">
                       <div className="flex items-center gap-2">
                         <button onClick={() => openEdit(u)}
-                          className="flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-800 px-2 py-1 rounded hover:bg-blue-50 transition-colors">
+                          className="flex items-center gap-1 text-xs font-medium text-green-600 hover:text-green-800 px-2 py-1 rounded hover:bg-green-50 transition-colors">
                           <Pencil size={12} /> Edit
                         </button>
                         {u.id !== session.userId && (

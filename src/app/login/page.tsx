@@ -78,7 +78,7 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="email@yaspida.id"
-                className="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
               />
               {email && (
                 <div className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
@@ -101,7 +101,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                className="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full pl-11 pr-4 py-3 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
               />
             </div>
           </div>
@@ -110,7 +110,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold py-3 rounded-xl text-sm transition-colors disabled:opacity-60 mt-2"
+            className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white font-semibold py-3 rounded-xl text-sm transition-colors disabled:opacity-60 mt-2"
           >
             {loading ? (
               <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
@@ -134,14 +134,14 @@ export default function LoginPage() {
               key={acc.email}
               type="button"
               onClick={() => { setEmail(acc.email); setPassword('password123') }}
-              className="flex flex-col items-center gap-1.5 py-3 px-2 border border-slate-200 hover:border-blue-300 hover:bg-blue-50 rounded-xl transition-all group"
+              className="flex flex-col items-center gap-1.5 py-3 px-2 border border-slate-200 hover:border-green-300 hover:bg-green-50 rounded-xl transition-all group"
             >
-              <div className="w-8 h-8 bg-slate-100 group-hover:bg-blue-100 rounded-full flex items-center justify-center transition-colors">
-                <span className="text-xs font-bold text-slate-500 group-hover:text-blue-600 transition-colors">
+              <div className="w-8 h-8 bg-slate-100 group-hover:bg-green-100 rounded-full flex items-center justify-center transition-colors">
+                <span className="text-xs font-bold text-slate-500 group-hover:text-green-600 transition-colors">
                   {acc.role.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase()}
                 </span>
               </div>
-              <span className="text-[11px] font-medium text-slate-500 group-hover:text-blue-600 text-center leading-tight transition-colors">
+              <span className="text-[11px] font-medium text-slate-500 group-hover:text-green-600 text-center leading-tight transition-colors">
                 {acc.role}
               </span>
             </button>
@@ -154,10 +154,10 @@ export default function LoginPage() {
       </div>
 
       {/* ── Right Panel (branding) — stacked on top for mobile, side panel from lg up ── */}
-      <div className="order-1 lg:order-2 flex flex-1 lg:min-h-screen bg-gradient-to-br from-[#ddeeff] via-[#c8e2ff] to-[#b8d4f5] relative overflow-hidden items-center justify-center py-10 px-6 lg:py-0">
+      <div className="order-1 lg:order-2 flex flex-1 lg:min-h-screen bg-gradient-to-br from-[#e3f5e8] via-[#c9ecd3] to-[#a9ddba] relative overflow-hidden items-center justify-center py-10 px-6 lg:py-0">
         {/* Background circles */}
-        <div className="absolute top-[-60px] right-[-60px] w-[220px] h-[220px] lg:w-[400px] lg:h-[400px] lg:top-[-80px] lg:right-[-80px] rounded-full bg-blue-200/40" />
-        <div className="absolute bottom-[-40px] left-[-40px] w-[160px] h-[160px] lg:w-[300px] lg:h-[300px] lg:bottom-[-60px] lg:left-[-60px] rounded-full bg-blue-300/30" />
+        <div className="absolute top-[-60px] right-[-60px] w-[220px] h-[220px] lg:w-[400px] lg:h-[400px] lg:top-[-80px] lg:right-[-80px] rounded-full bg-green-200/40" />
+        <div className="absolute bottom-[-40px] left-[-40px] w-[160px] h-[160px] lg:w-[300px] lg:h-[300px] lg:bottom-[-60px] lg:left-[-60px] rounded-full bg-green-300/30" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] lg:w-[600px] lg:h-[600px] rounded-full bg-white/10" />
 
         {/* Yayasan Logos */}
@@ -179,8 +179,8 @@ export default function LoginPage() {
 
           {/* Text below illustration */}
           <div className="mt-2 lg:mt-4 text-center">
-            <h2 className="text-xl lg:text-2xl font-bold text-blue-900 mb-2">Sistem Keuangan SIKAYA</h2>
-            <p className="text-sm text-blue-700/70 max-w-xs leading-relaxed">
+            <h2 className="text-xl lg:text-2xl font-bold text-green-900 mb-2">Sistem Keuangan SIKAYA</h2>
+            <p className="text-sm text-green-700/70 max-w-xs leading-relaxed">
               Sistem pengelolaan anggaran Yayasan Yaspida yang aman, transparan, dan mudah digunakan.
             </p>
           </div>
@@ -188,7 +188,7 @@ export default function LoginPage() {
           {/* Feature pills */}
           <div className="flex flex-wrap gap-2 mt-6 justify-center max-w-xs">
             {['Pengajuan Online', 'Persetujuan Cepat', 'Laporan Real-time', 'Aman & Terenkripsi'].map((f) => (
-              <span key={f} className="px-3 py-1.5 bg-white/60 backdrop-blur-sm text-blue-800 text-xs font-medium rounded-full border border-white/80 shadow-sm">
+              <span key={f} className="px-3 py-1.5 bg-white/60 backdrop-blur-sm text-green-800 text-xs font-medium rounded-full border border-white/80 shadow-sm">
                 {f}
               </span>
             ))}

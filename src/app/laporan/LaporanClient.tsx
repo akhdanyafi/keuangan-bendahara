@@ -67,14 +67,14 @@ export default function LaporanClient({ session }: { session: SessionPayload }) 
             <div>
               <label className="block text-xs font-medium text-slate-500 mb-1">Tahun</label>
               <select value={tahun} onChange={(e) => setTahun(e.target.value)}
-                className="text-sm bg-white border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                className="text-sm bg-white border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                 {tahunOptions.map((y) => <option key={y} value={y}>{y}</option>)}
               </select>
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-500 mb-1">Bulan</label>
               <select value={bulan} onChange={(e) => setBulan(e.target.value)}
-                className="text-sm bg-white border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                className="text-sm bg-white border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                 <option value="">Semua Bulan</option>
                 {BULAN.slice(1).map((b, i) => <option key={i+1} value={i+1}>{b}</option>)}
               </select>
@@ -82,7 +82,7 @@ export default function LaporanClient({ session }: { session: SessionPayload }) 
             <div>
               <label className="block text-xs font-medium text-slate-500 mb-1">Kategori</label>
               <select value={kategoriId} onChange={(e) => setKategoriId(e.target.value)}
-                className="text-sm bg-white border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                className="text-sm bg-white border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                 <option value="">Semua Kategori</option>
                 {kategoriList.map((k) => <option key={k.id} value={k.id}>{k.nama}</option>)}
               </select>
@@ -101,7 +101,7 @@ export default function LaporanClient({ session }: { session: SessionPayload }) 
           {[
             { label: 'Total Transaksi', value: String(data.length), color: 'text-slate-800' },
             { label: 'Total Estimasi', value: formatRupiah(totalEstimasi), color: 'text-slate-700' },
-            { label: 'Total Realisasi', value: formatRupiah(totalRealisasi), color: 'text-blue-600' },
+            { label: 'Total Realisasi', value: formatRupiah(totalRealisasi), color: 'text-green-600' },
           ].map((c) => (
             <div key={c.label} className="bg-white rounded-xl border border-slate-200 p-4 text-center">
               <p className="text-xs text-slate-400 mb-1">{c.label}</p>
@@ -114,7 +114,7 @@ export default function LaporanClient({ session }: { session: SessionPayload }) 
         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
           {loading ? (
             <div className="flex items-center justify-center h-48">
-              <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+              <div className="w-6 h-6 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
             </div>
           ) : data.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-48 text-slate-300">
@@ -163,7 +163,7 @@ export default function LaporanClient({ session }: { session: SessionPayload }) 
                   <tr className="bg-slate-50 border-t border-slate-200">
                     <td colSpan={4} className="px-5 py-3 text-xs font-semibold text-slate-500">Total</td>
                     <td className="px-5 py-3 text-right text-sm font-semibold text-slate-600">{formatRupiah(totalEstimasi)}</td>
-                    <td className="px-5 py-3 text-right text-sm font-bold text-blue-600">
+                    <td className="px-5 py-3 text-right text-sm font-bold text-green-600">
                       {formatRupiah(totalRealisasi)}
                       {selisih !== 0 && (
                         <span className={`ml-1.5 text-xs ${selisih > 0 ? 'text-red-500' : 'text-green-500'}`}>

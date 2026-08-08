@@ -56,7 +56,7 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
     return (
       <DashboardLayout title="Detail Pengajuan" role={session.role} nama={session.nama}>
         <div className="flex items-center justify-center h-48">
-          <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
         </div>
       </DashboardLayout>
     )
@@ -133,7 +133,7 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
             {data.lampiran_penawaran && (
               <div className="sm:col-span-2">
                 <p className="text-xs text-slate-400 mb-0.5">Lampiran</p>
-                <a href={data.lampiran_penawaran} target="_blank" className="text-blue-600 hover:underline text-sm font-medium">Lihat Lampiran →</a>
+                <a href={data.lampiran_penawaran} target="_blank" className="text-green-600 hover:underline text-sm font-medium">Lihat Lampiran →</a>
               </div>
             )}
           </div>
@@ -177,7 +177,7 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
                 )}
                 <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 z-10 ${
                   step.done
-                    ? step.error ? 'bg-red-500 border-red-500' : 'bg-blue-600 border-blue-600'
+                    ? step.error ? 'bg-red-500 border-red-500' : 'bg-green-600 border-green-600'
                     : 'bg-white border-slate-300'
                 }`}>
                   {step.done && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
@@ -204,7 +204,7 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
                 </div>
                 <div>
                   <p className="text-xs text-slate-400">Nominal Aktual</p>
-                  <p className="font-semibold text-blue-600 mt-0.5">{formatRupiah(data.nominal_aktual)}</p>
+                  <p className="font-semibold text-green-600 mt-0.5">{formatRupiah(data.nominal_aktual)}</p>
                 </div>
               </div>
               {data.catatan_nota && (
@@ -258,7 +258,7 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
         {/* Bendahara - Cairkan */}
         {session.role === 'bendahara' && data.status === 'approved' && (
           <button onClick={() => doAction(`/api/pengajuan/${id}/cairkan`)} disabled={actionLoading}
-            className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg text-sm transition-colors disabled:opacity-50">
+            className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg text-sm transition-colors disabled:opacity-50">
             <Banknote size={16} /> Tandai Dana Dicairkan
           </button>
         )}
@@ -286,7 +286,7 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
             <h4 className="text-sm font-semibold text-slate-700 mb-3">Upload Nota Pembelian</h4>
             {!showUploadNota ? (
               <button onClick={() => setShowUploadNota(true)}
-                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg text-sm">
+                className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg text-sm">
                 <Upload size={16} /> Upload Nota
               </button>
             ) : (
@@ -294,28 +294,28 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1">Nominal Aktual (Rp) *</label>
                   <CurrencyInput name="nominal_aktual" required
-                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1">Tanggal Pembelian *</label>
                   <input name="tanggal_pembelian" type="date" required
-                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1">Foto Nota *</label>
                   <input name="foto_nota" type="file" accept="image/*,.pdf" required
-                    className="w-full text-sm text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-600" />
+                    className="w-full text-sm text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-600" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1">Catatan</label>
                   <textarea name="catatan_nota" rows={2} placeholder="Opsional"
-                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+                    className="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 resize-none" />
                 </div>
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setShowUploadNota(false)}
                     className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-lg text-sm font-medium">Batal</button>
                   <button type="submit" disabled={actionLoading}
-                    className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-medium disabled:opacity-50">
+                    className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg text-sm font-medium disabled:opacity-50">
                     <Upload size={14} /> {actionLoading ? 'Mengupload...' : 'Upload'}
                   </button>
                 </div>
@@ -333,7 +333,7 @@ export default function PengajuanDetail({ id, session }: { id: string; session: 
               setActionLoading(false)
               if (res?.ok) fetchData()
             }} disabled={actionLoading}
-              className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg text-sm disabled:opacity-50">
+              className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 rounded-lg text-sm disabled:opacity-50">
               <Send size={15} /> Submit Pengajuan
             </button>
             <button onClick={async () => {

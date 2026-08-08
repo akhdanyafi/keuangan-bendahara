@@ -122,7 +122,7 @@ function BudgetKategoriList({ budgetKategori }: { budgetKategori: { nama: string
     <ul className="space-y-4">
       {budgetKategori.map((b) => {
         const persen = b.budget > 0 ? Math.min(100, Math.round((Number(b.terpakai) / Number(b.budget)) * 100)) : 0
-        const bar = persen >= 90 ? 'bg-red-500' : persen >= 70 ? 'bg-amber-500' : 'bg-blue-500'
+        const bar = persen >= 90 ? 'bg-red-500' : persen >= 70 ? 'bg-amber-500' : 'bg-green-500'
         const sisa = Number(b.budget) - Number(b.terpakai)
         return (
           <li key={b.nama}>
@@ -160,7 +160,7 @@ function SubmitterSection({
             <p className="text-xs text-slate-400">{sub}</p>
           </div>
         </div>
-        <a href={href} className="text-xs text-blue-600 hover:underline font-medium shrink-0">Semua →</a>
+        <a href={href} className="text-xs text-green-600 hover:underline font-medium shrink-0">Semua →</a>
       </div>
 
       <div className="flex-1 overflow-y-auto">
@@ -217,7 +217,7 @@ function SubmitterDashboard({ data }: { data: SubmitterData }) {
     },
     {
       title: 'Aktivitas Terbaru', sub: 'Semua pengajuan Anda',
-      icon: <FileText size={16} className="text-blue-500" />, iconBg: 'bg-blue-50',
+      icon: <FileText size={16} className="text-green-500" />, iconBg: 'bg-green-50',
       items: data.aktivitas, emptyText: 'Belum ada aktivitas', href: '/pengajuan',
     },
   ]
@@ -253,8 +253,8 @@ function SubmitterDashboard({ data }: { data: SubmitterData }) {
 /* ── Full Dashboard (Ketua Yayasan & Bendahara) ── */
 function FullDashboard({ data }: { data: DashboardData }) {
   const cards = [
-    { label: 'Pengeluaran Bulan Ini', value: formatRupiah(data.cards.totalBulanIni), sub: 'Total realisasi bulan berjalan', icon: <TrendingUp size={20} />, color: 'text-blue-600', bg: 'bg-blue-50' },
-    { label: 'Pengeluaran Tahun Ini', value: formatRupiah(data.cards.totalTahunIni), sub: `Tahun ${new Date().getFullYear()}`, icon: <BarChart3 size={20} />, color: 'text-blue-600', bg: 'bg-blue-50' },
+    { label: 'Pengeluaran Bulan Ini', value: formatRupiah(data.cards.totalBulanIni), sub: 'Total realisasi bulan berjalan', icon: <TrendingUp size={20} />, color: 'text-green-600', bg: 'bg-green-50' },
+    { label: 'Pengeluaran Tahun Ini', value: formatRupiah(data.cards.totalTahunIni), sub: `Tahun ${new Date().getFullYear()}`, icon: <BarChart3 size={20} />, color: 'text-green-600', bg: 'bg-green-50' },
     { label: 'Menunggu Approval', value: `${data.cards.pendingApproval} pengajuan`, sub: 'Perlu tindak lanjut segera', icon: <Clock size={20} />, color: 'text-orange-500', bg: 'bg-orange-50' },
     { label: 'Menunggu Nota', value: `${data.cards.menungguNota} pengajuan`, sub: 'Dana sudah dicairkan', icon: <AlertTriangle size={20} />, color: 'text-orange-500', bg: 'bg-orange-50' },
   ]
@@ -290,7 +290,7 @@ function FullDashboard({ data }: { data: DashboardData }) {
               <XAxis dataKey="bulan" tick={{ fontSize: 11, fill: '#94a3b8' }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11, fill: '#94a3b8' }} axisLine={false} tickLine={false} tickFormatter={formatJuta} />
               <Tooltip formatter={(v) => [formatRupiah(Number(v)), 'Realisasi']} contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12 }} cursor={{ fill: '#f8fafc' }} />
-              <Bar dataKey="total" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="total" fill="#16a34a" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -377,7 +377,7 @@ export default function DashboardClient({ session }: { session: SessionPayload }
       <DashboardLayout title="Dashboard" role={session.role} nama={session.nama}>
         <div className="flex items-center justify-center h-64">
           <div className="flex flex-col items-center gap-3">
-            <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-green-600 border-t-transparent rounded-full animate-spin" />
             <p className="text-sm text-slate-400">Memuat dashboard...</p>
           </div>
         </div>
